@@ -13,9 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Defines the version and other meta-info about the plugin
+ * Redirect the user to the appropriate submission related page
  *
  * @package    mod_multipage
  * @copyright  2016 Richard Jones <richardnz@outlook.com>
@@ -23,13 +22,10 @@
  * @see https://github.com/moodlehq/moodle-mod_newmodule
  *
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_multipage';
-$plugin->version = 2018040801;
-$plugin->release = 'v0.0';
-$plugin->requires = 2017051506; // Designed for Moodle 3.4
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+require_once(__DIR__ . "../../../config.php");
+$id = required_param('id', PARAM_INT);// Course module ID.
+// Item number may be != 0 for activities that allow more than one grade per user.
+$itemnumber = optional_param('itemnumber', 0, PARAM_INT);
+$userid = optional_param('userid', 0, PARAM_INT); // Graded user ID (optional).
+// In the simplest case just redirect to the view page.
+redirect('view.php?id='.$id);
