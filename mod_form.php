@@ -74,6 +74,7 @@ class mod_multipage_mod_form extends moodleform_mod {
         $mform->addElement('static', 'label', get_string('multipage_settings', 'mod_multipage'));
 
         $mform->addElement('text', 'title', get_string('multipage_title', 'mod_multipage'));
+        $mform->setType('title', PARAM_TEXT);
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
