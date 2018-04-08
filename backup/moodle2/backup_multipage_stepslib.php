@@ -25,7 +25,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
-
+require_once($CFG->dirroot . '/mod/multipage/lib.php');
 /**
  * Define the complete multipage structure for backup, with file and id annotations
  *
@@ -43,12 +43,12 @@ class backup_multipage_activity_structure_step extends backup_activity_structure
      */
     protected function define_structure() {
 
-        // Get know if we are including userinfo.
+        // Are we including userinfo?
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define the root element describing the multipage instance.
         $multipage = new backup_nested_element('multipage', array('id'), array(
-            'name', 'intro', 'introformat', 'grade'));
+            'name', 'intro', 'introformat', 'title', 'timecreated','timemodified', 'grade'));
 
         // If we had more elements, we would build the tree here.
 

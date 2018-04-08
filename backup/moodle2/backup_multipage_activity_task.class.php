@@ -64,11 +64,11 @@ class backup_multipage_activity_task extends backup_activity_task {
 
         // Link to the list of multipages.
         $search = '/('.$base.'\/mod\/multipage\/index.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@NEWMODULEINDEX*$2@$', $content);
+        $content = preg_replace($search, '$@MULTIPAGEINDEX*$2@$', $content);
 
         // Link to multipage view by moduleid.
         $search = '/('.$base.'\/mod\/multipage\/view.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@NEWMODULEVIEWBYID*$2@$', $content);
+        $content = preg_replace($search, '$@MULTIPAGEVIEWBYID*$2@$', $content);
 
         return $content;
     }
