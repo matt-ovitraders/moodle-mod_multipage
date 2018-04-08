@@ -1,4 +1,6 @@
-A multipage resource module for Moodle.
+A multipage resource module for Moodle.  
+Based on moodle-mod_newmodule: 
+        https://github.com/moodlehq/moodle-mod_newmodule
 
 Developed as an example in the course:
 
