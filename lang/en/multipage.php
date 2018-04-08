@@ -30,15 +30,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'multipage';
-$string['modulenameplural'] = 'multipages';
-$string['modulename_help'] = 'Use the multipage module for... | The multipage module allows...';
+// General module strings
+$string['modulename'] = 'Multipage';
+$string['modulenameplural'] = 'Multipages';
+$string['modulename_help'] = 'Use the multipage module for a simple sequential display of pages with an optional index | The multipage module allows the creation and addition of multiple pages of content.';
 $string['multipage:addinstance'] = 'Add a new multipage';
 $string['multipage:submit'] = 'Submit multipage';
 $string['multipage:view'] = 'View multipage';
 $string['multipagefieldset'] = 'Custom example fieldset';
 $string['multipagename'] = 'multipage name';
 $string['multipagename_help'] = 'This is the content of the help tooltip associated with the multipagename field. Markdown syntax is supported.';
-$string['multipage'] = 'multipage';
 $string['pluginadministration'] = 'multipage administration';
 $string['pluginname'] = 'multipage';
+
+// mod_form settings
+$string['multipage_settings'] = 'Multi-page settings';
+$string['multipage_title'] = 'Title of this resource';

@@ -45,32 +45,32 @@ if ($id) {
 }
 
 require_login($course, true, $cm);
+$modulecontext = context_module::instance($cm->id);
 
+// Log the module viewed event
 $event = \mod_multipage\event\course_module_viewed::create(array(
     'objectid' => $PAGE->cm->instance,
     'context' => $PAGE->context,
 ));
+
 $event->add_record_snapshot('course', $PAGE->course);
 $event->add_record_snapshot($PAGE->cm->modname, $multipage);
 $event->trigger();
 
-// Print the page header.
+//Set completion
+//if we got this far, we can consider the activity "viewed"
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);
 
+// Print the page header.
 $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($multipage->name));
 $PAGE->set_heading(format_string($course->fullname));
 
-/*
- * Other things you may want to set - remove if not needed.
- * $PAGE->set_cacheable(false);
- * $PAGE->set_focuscontrol('some-html-id');
- * $PAGE->add_body_class('multipage-'.$somevar);
- */
-
 // Output starts here.
 echo $OUTPUT->header();
-
-// Conditions to show the intro can change to look for own settings or whatever.
+    
+// Output the introduction as the first page
 if ($multipage->intro) {
     echo $OUTPUT->box(format_module_intro('multipage', $multipage, $cm->id), 'generalbox mod_introbox', 'multipageintro');
 }

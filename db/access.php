@@ -48,7 +48,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Modify capabilities as needed and remove this comment.
 $capabilities = array(
     'mod/multipage:addinstance' => array(
         'riskbitmask' => RISK_XSS,
@@ -68,14 +67,5 @@ $capabilities = array(
             'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
         )
-    ),
-
-    'mod/multipage:submit' => array(
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW
-        )
-    ),
+    )
 );

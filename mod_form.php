@@ -71,10 +71,9 @@ class mod_multipage_mod_form extends moodleform_mod {
 
         // Adding the rest of multipage settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'multipagesetting1', 'Your multipage fields go here. Replace me!');
+        $mform->addElement('static', 'label', get_string('multipage_settings', 'mod_multipage'));
 
-        $mform->addElement('header', 'multipagefieldset', get_string('multipagefieldset', 'multipage'));
-        $mform->addElement('static', 'label2', 'multipagesetting2', 'Your multipage fields go here. Replace me!');
+        $mform->addElement('text', 'title', get_string('multipage_title', 'mod_multipage'));
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
