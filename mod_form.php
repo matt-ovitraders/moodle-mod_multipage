@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 /**
- * Module instance settings form
+ * Module instance settings form (from moodle-mod_newmodule)
  *
  * @package    mod_multipage
  * @copyright  2016 Your Name <your@email.address>
@@ -52,12 +52,15 @@ class mod_multipage_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('multipagename', 'multipage'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('multipagename', 'multipage'), 
+                array('size' => '64'));
+        
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
             $mform->setType('name', PARAM_CLEANHTML);
         }
+        
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'multipagename', 'multipage');
