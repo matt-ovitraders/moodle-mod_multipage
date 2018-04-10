@@ -38,7 +38,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="multichoiceid" TYPE="foreign" FIELDS="simplelessonid" REFTABLE="simplelesson" REFFIELDS="ID"/>
+        <KEY NAME="multichoiceid" TYPE="foreign" FIELDS="id" REFTABLE="multipages" REFFIELDS="ID"/>
       </KEYS>
     </TABLE>
   </TABLES>
