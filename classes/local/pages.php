@@ -15,21 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version and other meta-info about the plugin
+ * Page utilities for multipage
  *
  * @package    mod_multipage
- * @copyright  2016 Richard Jones <richardnz@outlook.com>
+ * @copyright  Richard Jones https://richardnz.net
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @see https://github.com/moodlehq/moodle-mod_newmodule
- *
  */
+namespace mod_multipage\local;
 
 defined('MOODLE_INTERNAL') || die();
+/**
+ * Utility class for counting pages and so on
+ *
+ * @package    mod_multipage
+ * @copyright  2018 Richard Jones https://richardnz.net
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class pages  {
 
-$plugin->component = 'mod_multipage';
-$plugin->version = 2018041002;
-$plugin->release = 'v0.0';
-$plugin->requires = 2017051506; // Designed for Moodle 3.4
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+    /** 
+     * Count the number of pages in a multipage mod
+     *
+     * @param int $multipageid the id of a simplelesson
+     * @return int the number of pages in the database that lesson has
+     */
+    public static function count_pages($multipageid) {      
+        return 0;
+    }
+}

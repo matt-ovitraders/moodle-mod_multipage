@@ -64,19 +64,25 @@ $completion->set_module_viewed($cm);
 
 // Print the page header.
 $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($multipage->name));
-$PAGE->set_heading(format_string($course->fullname));
+//$PAGE->set_title(format_string($multipage->name));
+//$PAGE->set_heading(format_string($course->fullname));
 
 // Output starts here.
-echo $OUTPUT->header();
-    
+// echo $OUTPUT->header();
+   
+$renderer = $PAGE->get_renderer('mod_multipage');
+echo $renderer->header($multipage->name, $course->fullname);
+
 // Output the introduction as the first page
 if ($multipage->intro) {
-    echo $OUTPUT->box(format_module_intro('multipage', $multipage, $cm->id), 'generalbox mod_introbox', 'multipageintro');
+    echo $renderer->fetch_intro($multipage, $cm->id);
 }
 
-// Replace the following lines with your own code.
-echo $OUTPUT->heading('lets hope so...');
+//if we are teacher we see links.
+if(has_capability('mod/multipage:manage', 
+        $modulecontext)) {
+    echo $renderer->fetch_editing_links();
+}
 
 // Finish the page.
 echo $OUTPUT->footer();

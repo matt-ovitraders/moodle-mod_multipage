@@ -46,3 +46,11 @@ $string['pluginname'] = 'multipage';
 // mod_form settings
 $string['multipage_settings'] = 'Multi-page settings';
 $string['multipage_title'] = 'Title of this resource';
+
+// Capabilities
+$string['multipage:manage'] = 'Manage multipage';
+
+// Editing links
+$string['edit_page'] = 'Edit page';
+$string['add_page'] = 'Add page';
+$string['delete_page'] = 'Delete page';
