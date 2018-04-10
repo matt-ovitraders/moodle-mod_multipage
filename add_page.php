@@ -18,7 +18,6 @@
 /**
  * Add a page at the end of the sequence
  *
- *
  * @package   mod_multipage
  * @copyright 2018 Richard Jones https://richardnz.net
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,8 +25,6 @@
 
 require_once('../../config.php');
 require_once('edit_page_form.php');
-
-// use mod_multipage\local\pages;
 
 //fetch URL parameters
 $courseid = required_param('courseid', PARAM_INT);
@@ -52,6 +49,7 @@ $modulecontext = context_module::instance($cm->id);
 $PAGE->set_context($modulecontext);
 $PAGE->set_pagelayout('course');
 
+// For use with the re-direct
 $return_view = new moodle_url('/mod/multipage/view.php', 
         array('n' => $multipageid));
 
@@ -88,6 +86,10 @@ if ($data = $mform->get_data()) {
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('page_adding', 'mod_multipage'), 2);
+
+// Show the form
 $mform->display();
+
+// Finish the page (don't forget!)
 echo $OUTPUT->footer();
 return;

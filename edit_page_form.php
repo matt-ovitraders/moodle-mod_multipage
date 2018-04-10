@@ -37,6 +37,7 @@ class multipage_edit_page_form extends moodleform {
 
         $mform = $this->_form;
 
+        // The page title
         $mform->addElement('text', 'pagetitle', get_string('pagetitle', 'mod_multipage'), array('size'=>'64'));
         $mform->addRule('pagetitle', null, 'required', null, 'client');
         $mform->setType('pagetitle', PARAM_TEXT);                     
@@ -49,10 +50,12 @@ class multipage_edit_page_form extends moodleform {
                 get_string('pagecontents', 'mod_multipage'), 
                 null, $pagecontentsoptions);
         
+        // Remember stick with this naming style
         $mform->setType('pagecontents_editor', PARAM_RAW);
         $mform->addRule('pagecontents_editor', get_string('required'), 
                 'required', null, 'client');
 
+        // Drop-down lists for page linking
         $mform->addElement('select', 'prevpageid', get_string('getprevpage', 'mod_multipage'), $this->_customdata['page_titles']);
         $mform->addElement('select', 'nextpageid', get_string('getnextpage', 'mod_multipage'), $this->_customdata['page_titles']);
         
@@ -73,7 +76,7 @@ class multipage_edit_page_form extends moodleform {
         // Add the action buttons
         $this->add_action_buttons($cancel=true);
     }
-
+    // Massage the editor data for displaying on the form
     function data_preprocessing(&$default_values) {
         if ($this->current->instance) {
             $context = $this->_customdata['context'];

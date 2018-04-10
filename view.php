@@ -62,11 +62,6 @@ $completion->set_module_viewed($cm);
 
 // Print the page header.
 $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
-//$PAGE->set_title(format_string($multipage->name));
-//$PAGE->set_heading(format_string($course->fullname));
-
-// Output starts here.
-// echo $OUTPUT->header();
    
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->header($multipage->name, $course->fullname);

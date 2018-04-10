@@ -45,12 +45,25 @@ class pages  {
        return $DB->count_records('multipage_pages', 
                 array('multipageid'=>$multipageid));
     }
-
+    /** 
+     * Get a list of page titles from the pages table
+     *
+     * @param Will need to add some
+     * @return string array - a list of page titles
+     */
     public static function fetch_page_titles() {
         $page_titles = array();
         $page_titles[] = get_string('nolink', 'mod_multipage');
-    }
 
+        return $page_titles;
+    }
+    /** 
+     * Add a page record to the pages table
+     *
+     * @param $data object - the data to add
+     * @param $context object - our module context
+     * @return $id - the id of the inserted record
+     */
     public static function add_page_record($data, $context){
         global $DB;
 
@@ -65,6 +78,7 @@ class pages  {
 
         $data->id = $dataid;
 
+        // Massage the data into a form for saving
         $data = file_postupdate_standard_editor(
                 $data,
                 'pagecontents',
@@ -73,7 +87,7 @@ class pages  {
                 'mod_multipage',
                 'pagecontents', 
                 $data->id);
-
+        // Update the record with full editor data
         $DB->update_record('multipage_pages', $data);
 
         return $data->id;                        
