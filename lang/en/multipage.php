@@ -62,4 +62,5 @@ $string['getprevpage'] = 'Previous page';
 $string['getnextpage'] = 'Next page';
 $string['nolink'] = 'none';
 $string['no_pages'] = 'There are no pages yet, add a page';
+$string['numpages'] = 'Number of pages: {$a}';
 

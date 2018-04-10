@@ -24,8 +24,6 @@
  *
  */
 
-// Replace multipage with the name of your module and remove this line.
-
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
@@ -78,16 +76,23 @@ if ($multipage->intro) {
     echo $renderer->fetch_intro($multipage, $cm->id);
 }
 
-//if we are teacher we see links.
-if(has_capability('mod/multipage:manage', 
-        $modulecontext)) {
+// Do we have any pages?
+$numpages = mod_multipage\local\pages::count_pages($multipage->id);
+
+//if we are teacher we see stuff.
+if(has_capability('mod/multipage:manage', $modulecontext)) {
+    
+    // If there are no pages, we add an add_page link
+    if($numpages == 0) {
+        echo $renderer->add_first_page_link($course->id, $multipage->id, 0);    
+    } else {
+        echo $renderer->fetch_num_pages($numpages);          
+    }
+    
+    // The teacher sees the edit links
     echo $renderer->fetch_editing_links();
 }
-
-// If there are no pages yet, let's add a link to the add page
-if (mod_multipage\local\pages::count_pages($multipage->id) == 0) {
-    echo $renderer->add_first_page_link($course->id, $multipage->id, 0);
-}
+    
 
 // Finish the page.
 echo $OUTPUT->footer();

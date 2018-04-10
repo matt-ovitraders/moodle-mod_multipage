@@ -98,4 +98,15 @@ class mod_multipage_renderer extends plugin_renderer_base {
         
         return $html;
     }
+    /**
+     * Returns the html to show the number of pages
+     *
+     * @param int $numpages the number of pages
+     * @return string html
+     */
+    public function fetch_num_pages($numpages) {
+            
+        return get_string('numpages', 'mod_multipage', $numpages);
+    }
+
 }
