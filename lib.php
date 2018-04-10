@@ -390,6 +390,14 @@ function multipage_update_grades(stdClass $multipage, $userid = 0) {
 
 /* File API */
 
+// Return editor options
+function multipage_get_editor_options($context) {
+    global $CFG;
+    return array('subdirs'=>true, 'maxbytes'=>$CFG->maxbytes, 'maxfiles'=>-1,
+            'changeformat'=>1, 'context'=>$context, 
+            'noclean'=>true, 'trusttext'=>false);
+}
+
 /**
  * Returns the lists of all browsable file areas within the given module context
  *

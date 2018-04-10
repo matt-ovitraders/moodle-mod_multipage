@@ -84,5 +84,10 @@ if(has_capability('mod/multipage:manage',
     echo $renderer->fetch_editing_links();
 }
 
+// If there are no pages yet, let's add a link to the add page
+if (mod_multipage\local\pages::count_pages($multipage->id) == 0) {
+    echo $renderer->add_first_page_link($course->id, $multipage->id, 0);
+}
+
 // Finish the page.
 echo $OUTPUT->footer();

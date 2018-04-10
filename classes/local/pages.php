@@ -36,10 +36,47 @@ class pages  {
     /** 
      * Count the number of pages in a multipage mod
      *
-     * @param int $multipageid the id of a simplelesson
+     * @param int $multipageid the id of a multipage
      * @return int the number of pages in the database that lesson has
      */
     public static function count_pages($multipageid) {      
-        return 0;
+       global $DB;
+        
+       return $DB->count_records('multipage_pages', 
+                array('multipageid'=>$multipageid));
     }
+
+    public static function fetch_page_titles() {
+        $page_titles = array();
+        $page_titles[] = get_string('nolink', 'mod_multipage');
+    }
+
+    public static function add_page_record($data, $context){
+        global $DB;
+
+        $pagecontentsoptions = multipage_get_editor_options($context);
+        
+        // insert a dummy record and get the id
+        $data->timecreated = time();
+        $data->timemodified = time();
+        $data->pagecontents = ' ';
+        $data->pagecontentsformat = FORMAT_HTML;
+        $dataid = $DB->insert_record('multipage_pages', $data); 
+
+        $data->id = $dataid;
+
+        $data = file_postupdate_standard_editor(
+                $data,
+                'pagecontents',
+                $pagecontentsoptions, 
+                $context, 
+                'mod_multipage',
+                'pagecontents', 
+                $data->id);
+
+        $DB->update_record('multipage_pages', $data);
+
+        return $data->id;                        
+    }
+
 }

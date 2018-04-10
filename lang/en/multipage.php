@@ -50,7 +50,16 @@ $string['multipage_title'] = 'Title of this resource';
 // Capabilities
 $string['multipage:manage'] = 'Manage multipage';
 
-// Editing links
+// Page editing
 $string['edit_page'] = 'Edit page';
 $string['add_page'] = 'Add page';
 $string['delete_page'] = 'Delete page';
+$string['page_adding'] = 'Add a new page';
+$string['page_saved'] = 'Page saved';
+$string['pagetitle'] = 'Title of the page';
+$string['pagecontents'] = 'page content';
+$string['getprevpage'] = 'Previous page';
+$string['getnextpage'] = 'Next page';
+$string['nolink'] = 'none';
+$string['no_pages'] = 'There are no pages yet, add a page';
+

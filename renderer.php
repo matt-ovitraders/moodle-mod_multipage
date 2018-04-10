@@ -76,4 +76,26 @@ class mod_multipage_renderer extends plugin_renderer_base {
 
         return $html;
     }
+    /**
+     * Returns a link to add a page
+     *
+     * @param int $courseid 
+     * @param int $multipageid
+     * @param int $sequence the page sequence number
+     * @return string add link html
+     */
+    public function add_first_page_link($courseid, $multipageid, $sequence) {
+    
+        $html = '<p>' . get_string('no_pages', 
+                'mod_multipage') . '</p>';      
+
+        $url = new moodle_url('/mod/multipage/add_page.php', 
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid,
+                'sequence' => $sequence));
+    
+        $html .= html_writer::link($url, get_string('add_page', 'mod_multipage'));
+        
+        return $html;
+    }
 }
