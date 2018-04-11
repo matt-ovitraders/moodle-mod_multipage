@@ -78,11 +78,29 @@ class restore_multipage_activity_structure_step extends restore_activity_structu
         $this->apply_activity_instance($newitemid);
     }
 
+    protected function process_multipage_page($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = $data->id;
+        $data->multipageid = $this->get_new_parentid('multipage');
+
+        // We'll remap all the prevpageid and nextpageid at the end
+        // when we know how :)
+
+        $newitemid = $DB->insert_record('multipage_pages', $data);
+        $this->set_mapping('multipage_page', $oldid, $newitemid, true); 
+
+    }
     /**
      * Post-execution actions
      */
     protected function after_execute() {
         // Add multipage related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_multipage', 'intro', null);
+        $this->add_related_files('mod_multipage', 'pagecontents', 'multipage_pages');
+
+        // Check here, may have to remap the page links (prev, next)
+        // At the moment, user would have to go to manage pages to fix that up.
     }
 }

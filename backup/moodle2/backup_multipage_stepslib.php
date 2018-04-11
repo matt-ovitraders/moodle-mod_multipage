@@ -50,16 +50,26 @@ class backup_multipage_activity_structure_step extends backup_activity_structure
         $multipage = new backup_nested_element('multipage', array('id'), array(
             'name', 'intro', 'introformat', 'title', 'timecreated','timemodified', 'grade'));
 
-        // If we had more elements, we would build the tree here.
+        // Build the tree here.
+        $pages = new backup_nested_element('pages');
+        $page = new backup_nested_element('page', array('id'), 
+                array('multipageid', 'sequence', 'prevpageid','nextpageid',
+                'pagetitle','pagecontents','pagecontentsformat','timecreated',
+                'timemodified','title'));
+
+        $multipage->add_child($pages);
+        $pages->add_child($page);
 
         // Define data sources.
         $multipage->set_source_table('multipage', array('id' => backup::VAR_ACTIVITYID));
 
-        // If we were referring to other tables, we would annotate the relation
-        // with the element's annotate_ids() method.
+         $page->set_source_table('multipage_pages', 
+                array('multipageid' => backup::VAR_PARENTID), 
+                'prevpageid ASC');
 
-        // Define file annotations (we do not use itemid in this example).
+        // Define file annotations
         $multipage->annotate_files('mod_multipage', 'intro', null);
+        $page->annotate_files('mod_multipage', 'pagecontents', 'id');
 
         // Return the root element (multipage), wrapped into standard activity structure.
         return $this->prepare_activity_structure($multipage);
