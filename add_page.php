@@ -54,7 +54,7 @@ $return_view = new moodle_url('/mod/multipage/view.php',
         array('n' => $multipageid));
 
 // Page link data
-$page_titles = \mod_multipage\local\pages::fetch_page_titles();
+$page_titles = \mod_multipage\local\pages::fetch_page_titles($multipageid);
 
 //get the page editing form
 $mform = new multipage_edit_page_form(null, 

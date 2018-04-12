@@ -59,10 +59,10 @@ $data->pagecontents = file_rewrite_pluginfile_urls($data->pagecontents, 'pluginf
 
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->show_page($data);
-echo $renderer->show_page_nav_links($courseid, $multipageid, $pageid);
+echo $renderer->show_page_nav_links($courseid, $data);
 
 if(has_capability('mod/multipage:manage', $modulecontext)) {
-    echo $renderer->show_page_edit_links($courseid, $multipageid, $pageid);
+    echo $renderer->show_page_edit_links($courseid, $data);
 }
 
 echo $OUTPUT->footer();

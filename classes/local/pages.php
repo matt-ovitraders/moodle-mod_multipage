@@ -46,14 +46,25 @@ class pages  {
                 array('multipageid'=>$multipageid));
     }
     /** 
-     * Get a list of page titles from the pages table
+     * Get the page titles for the prev/next drop downs
+     * keys are the page values, text is the page title
      *
-     * @param Will need to add some
-     * @return string array - a list of page titles
+     * @param int $multipageid the id of a multipage
+     * @return array of pageid=>titles of pages in the multipage
      */
-    public static function fetch_page_titles() {
+    public static function fetch_page_titles($multipageid) { 
         $page_titles = array();
-        $page_titles[] = get_string('nolink', 'mod_multipage');
+        $pagecount = self::count_pages($multipageid);
+        if ($pagecount != 0) {
+            for ($p = 1; $p <= $pagecount; $p++ ) {
+                $pid = self::get_page_id_from_sequence($multipageid, $p);
+                $data = self::get_page_record($pid);
+                $page_titles[$pid] = $data->pagetitle;  
+           }
+        }
+        // Add a "none" link
+        $page_titles[0] = 
+                get_string('nolink', 'mod_multipage');
 
         return $page_titles;
     }

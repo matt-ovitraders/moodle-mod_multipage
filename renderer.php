@@ -157,33 +157,45 @@ class mod_multipage_renderer extends plugin_renderer_base {
      * Show the home, previous and next links
      *
      * @param int $courseid
-     * @param int $multipage
-     * @param int $pageid
+     * @param object $data - the current page object
      * @return string html representation of navigation links
      */
-    public function show_page_nav_links($courseid, $multipageid, 
-            $pageid) {
+    public function show_page_nav_links($courseid, $data) {
         
         $links = array();
 
         $html = html_writer::start_div('mod_multipage_page_links');      
         // Home link
         $return_view = new moodle_url('/mod/multipage/view.php', 
-                array('n' => $multipageid));
+                array('n' => $data->multipageid));
         $links[] = html_writer::link($return_view, 
                     get_string('homelink',  'mod_multipage'));
         
-        $prev_url = new moodle_url('/mod/multipage/showpage.php',
-                array('courseid' => $courseid, 'multipageid' => $multipageid, 
-                        'pageid' => $pageid));
-        $links[] = html_writer::link($prev_url, 
-                get_string('gotoprevpage', 'mod_multipage'));
+        // Previous page (if any)
+        if ($data->prevpageid != 0) {
+            $prev_url = new moodle_url('/mod/multipage/showpage.php',
+                    array('courseid' => $courseid, 
+                    'multipageid' => $data->multipageid, 
+                    'pageid' => $data->prevpageid));
+            $links[] = html_writer::link($prev_url, 
+                    get_string('gotoprevpage', 'mod_multipage'));
+        } else {
+          // Just put out the link text
+            $links[] = get_string('gotoprevpage', 'mod_multipage');  
+        }
     
-        $next_url = new moodle_url('/mod/multipage/showpage.php',
-                array('courseid' => $courseid, 'multipageid' => $multipageid, 
-                        'pageid' => $pageid));
+        // Next page (if any)
+        if ($data->nextpageid != 0) {
+            $next_url = new moodle_url('/mod/multipage/showpage.php',
+                    array('courseid' => $courseid, 
+                    'multipageid' => $data->multipageid, 
+                    'pageid' => $data->nextpageid));
             $links[] = html_writer::link($next_url, 
-                        get_string('gotonextpage', 'mod_multipage'));
+                 get_string('gotonextpage', 'mod_multipage'));
+        } else {
+          // Just put out the link text
+            $links[] = get_string('gotonextpage', 'mod_multipage');  
+        }
 
         $html .= html_writer::alist($links, null, 'ul');
         $html .= html_writer::end_div();  // pagelinks 
@@ -195,32 +207,33 @@ class mod_multipage_renderer extends plugin_renderer_base {
      * Show the page editing links
      *
      * @param int $courseid
-     * @param int $multipage
-     * @param int $pageid
+     * @param int $data object the page data
      * @return string html representation of editing links
      */
-    public function show_page_edit_links($courseid, $multipageid, 
-            $pageid) {
+    public function show_page_edit_links($courseid, $data) {
         
         $links = array();
 
         $html = html_writer::start_div('mod_multipage_edit_links');      
         
-        $add_url = new moodle_url('/mod/multipage/showpage.php',
-                array('courseid' => $courseid, 'multipageid' => $multipageid, 
-                        'pageid' => $pageid));
+        $add_url = new moodle_url('/mod/multipage/add_page.php',
+                array('courseid' => $courseid, 
+                'multipageid' => $data->multipageid, 
+                'sequence' => $data->sequence + 1));        
         $links[] = html_writer::link($add_url, 
                 get_string('gotoaddpage', 'mod_multipage'));
     
         $edit_url = new moodle_url('/mod/multipage/showpage.php',
-                array('courseid' => $courseid, 'multipageid' => $multipageid, 
-                'pageid' => $pageid));
+                array('courseid' => $courseid, 
+                'multipageid' => $data->multipageid, 
+                'pageid' => $data->id));
         $links[] = html_writer::link($edit_url, 
                 get_string('gotoeditpage', 'mod_multipage'));
 
         $delete_url = new moodle_url('/mod/multipage/showpage.php',
-                array('courseid' => $courseid, 'multipageid' => $multipageid, 
-                'pageid' => $pageid));
+                array('courseid' => $courseid, 
+                'multipageid' => $data->multipageid, 
+                'pageid' => $data->id));
         $links[] = html_writer::link($delete_url, 
                 get_string('gotodeletepage', 'mod_multipage'));
 
