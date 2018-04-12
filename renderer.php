@@ -64,15 +64,17 @@ class mod_multipage_renderer extends plugin_renderer_base {
      *
      * @return string editing links
      */
-    public function fetch_editing_links() {
+    public function fetch_editing_links($courseid, $multipageid) {
     
         $html = html_writer::start_div(
                 'mod_multipage' . '_page_edit');
-        
-        $html .= '<p>' . get_string('edit_page', 
-                'mod_multipage') . '</p>';      
-        
-        $html .=  html_writer::end_div();
+
+        $url = new moodle_url('/mod/multipage/edit.php', 
+                array('courseid' => $courseid, 
+                      'multipageid' => $multipageid));
+        $html .= html_writer::link($url, 
+                get_string('manage_pages', 'mod_multipage'));        
+        $html .= html_writer::end_div();
 
         return $html;
     }
@@ -239,10 +241,160 @@ class mod_multipage_renderer extends plugin_renderer_base {
                 'returnto' => 'view'));
         $links[] = html_writer::link($delete_url, 
                 get_string('gotodeletepage', 'mod_multipage'));
+        
+        // Page management
+        $edit_url = new moodle_url('/mod/multipage/edit.php', 
+                array('courseid' => $courseid, 
+                      'multipageid' => $data->multipageid));
+        $links[] = html_writer::link($edit_url, 
+                get_string('manage_pages', 'mod_multipage'));        
 
         $html .= html_writer::alist($links, null, 'ul');
+
         $html .= html_writer::end_div();  // pagelinks 
         
         return $html;    
     }
+    
+    /**
+     * Returns a list of pages and editing actions
+     *
+     * @param string $courseid - current course
+     * @param object $multipageid - current instance id
+     * @param object $context  - module context
+     * @return string html link
+     */
+    public function page_management($courseid, 
+            $multipage, $context) {
+    
+        $activityname = format_string($multipage->name, true);   
+        $this->page->set_title($activityname);
+
+        $table = new html_table();
+        $table->head = array(
+                get_string('sequence', 'mod_multipage'),
+                get_string('pagetitle', 'mod_multipage'),
+                get_string('prevpage', 'mod_multipage'),
+                get_string('nextpage', 'mod_multipage'),
+                get_string('actions', 'mod_multipage'));
+        $table->align = 
+                array('left', 'left', 'left', 'left', 'left');
+        $table->wrap = 
+                array('', 'nowrap', '', 'nowrap', '');
+        $table->tablealign = 'center';
+        $table->cellspacing = 0;
+        $table->cellpadding = '2px';
+        $table->width = '80%';
+        $table->data = array();
+        $numpages = 
+                \mod_multipage\local\pages::count_pages(
+                $multipage->id);
+        $sequence = 1;
+        
+        while ($sequence <= $numpages) {
+            $pageid = 
+                    \mod_multipage\local\pages::
+                    get_page_id_from_sequence($multipage->id, 
+                    $sequence);
+            $url = new moodle_url('/mod/lesson/edit.php', array(
+                'courseid'     => $courseid,
+                'multipageid'   => $multipage->id
+            ));
+            $data = array();
+            $all_data = \mod_multipage\local\pages::
+                    get_page_record($pageid);
+            // Change page id's to sequence numbers for display
+            $prevpage = \mod_multipage\local\pages::
+                    get_page_sequence_from_id($all_data->prevpageid);
+            $nextpage = \mod_multipage\local\pages::
+                    get_page_sequence_from_id($all_data->nextpageid);
+            $data[] = $all_data->sequence;        
+            $data[] = $all_data->pagetitle;
+            $data[] = $prevpage;
+            $data[] = $nextpage;
+
+            if(has_capability('mod/multipage:manage', 
+                    $context)) {
+                $data[] = $this->page_action_links(
+                        $courseid, $multipage->id, $all_data);
+            } else {
+                $data[] = '';
+            }
+            $table->data[] = $data;
+            $sequence++;
+        }
+
+        return html_writer::table($table);
+    }
+    /**
+     * Returns HTML to display action links for a page
+     *
+     * @param $courseid - current course
+     * @param $multipageid - current module instance id
+     * @param $data - a multipage page record
+     * @return string, a set of page action links
+     */
+    public function page_action_links(
+            $courseid, $multipageid, $data) {
+        global $CFG;
+        $actions = array();
+
+        $url = new moodle_url('/mod/multipage/edit_page.php', 
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid, 
+                'sequence' => $data->sequence,
+                'pageid' => $data->id));
+
+        $label = get_string('gotoeditpage', 'mod_multipage');
+
+        // Standard Moodle icons used here
+        $img = $this->output->pix_icon('t/edit', $label);
+        $actions[] = html_writer::link($url, $img, array('title' => $label));
+
+        // Preview page = show page
+        $url = new moodle_url('/mod/multipage/showpage.php', 
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid, 
+                'pageid' => $data->id));
+        $label = get_string('showpage', 'mod_multipage');
+        $img = $this->output->pix_icon('t/preview', $label);
+        $actions[] = html_writer::link($url, $img, array('title' => $label));
+        
+        // Delete page
+        $url = new moodle_url('/mod/multipage/delete_page.php',
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid, 
+                'sequence' => $data->sequence,
+                'pageid' => $data->id,
+                'returnto' => 'edit'));
+        $label = get_string('gotodeletepage', 'mod_multipage');
+        $img = $this->output->pix_icon('t/delete', $label);
+        $actions[] = html_writer::link($url, $img, array('title' => $label));
+
+        // Move page up
+        if ($data->sequence != 1) {
+         $url = new moodle_url('/mod/multipage/edit.php', 
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid, 
+                'sequence' => $data->sequence,
+                'action' => 'move_up'));
+        $label = get_string('move_up', 'mod_multipage');
+        $img = $this->output->pix_icon('t/up', $label);
+        $actions[] = html_writer::link($url, $img, array('title' => $label));   
+        }
+
+        // Move down
+        if (!\mod_multipage\local\pages::is_last_page($data)) {
+         $url = new moodle_url('/mod/multipage/edit.php', 
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid,
+                'sequence' => $data->sequence, 
+                'action' => 'move_down'));
+        $label = get_string('move_down', 'mod_multipage');
+        $img = $this->output->pix_icon('t/down', $label);
+        $actions[] = html_writer::link($url, $img, array('title' => $label));   
+        }
+        return implode(' ', $actions);
+    } 
+
 }

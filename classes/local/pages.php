@@ -133,6 +133,71 @@ class pages  {
         return $data->id;
     } 
     /** 
+     * Given a multipage id return its sequence number
+     *
+     * @param int $multipageid the instance id
+     * @param int $sequence, where the page is in the lesson sequence
+     * @return int pageid, the id of the page in the pages table 
+     */
+
+    public static function get_page_sequence_from_id($pageid) {
+        global $DB;  
+
+       return $DB->get_field('multipage_pages', 
+            'sequence',  array('id' => $pageid));
+    } 
+
+    /** 
+     * Check if this is the last page of the instance
+     *
+     * @param object $data the multipage object
+     * @return boolean true if this is the last page
+     */
+    public static function is_last_page($data) { 
+        return ($data->sequence == self::count_pages($data->multipageid));
+    }
+
+/** 
+     * Given a multipage and sequence number
+     * Move the page by exchanging sequence numbers
+     *
+     * @param int $multipageid the multipage instance
+     * @param int $sequence the page sequence number
+     * @return none
+     */
+    public static function move_page_up($multipageid, $sequence) {
+        global $DB;
+        
+        $pageid_up = self::get_page_id_from_sequence(
+                $multipageid, $sequence);
+        $pageid_down = self::get_page_id_from_sequence(
+                $multipageid, ($sequence - 1));
+
+        self::decrement_page_sequence($pageid_up);
+        self::increment_page_sequence($pageid_down);
+    }
+
+    /** 
+     * Given a multipage and sequence number
+     * Move the page by exchanging sequence numbers
+     *
+     * @param int $multipageid the multipage instance
+     * @param int $sequence the page sequence number
+     * @return none
+     */
+    public static function move_page_down($multipageid, $sequence) {
+        global $DB;
+        
+        $pageid_down = self::get_page_id_from_sequence(
+                $multipageid, $sequence);
+        $pageid_up = self::get_page_id_from_sequence(
+                $multipageid, ($sequence + 1));
+
+        self::increment_page_sequence($pageid_down);
+        self::decrement_page_sequence($pageid_up);
+    }
+     
+   /** 
      * Given a page record id
      * decrease the sequence number by 1
      *
@@ -148,6 +213,24 @@ class pages  {
             'sequence', ($sequence - 1),  
             array('id' => $pageid));
     }
+
+   /** 
+     * Given a page record id
+     * increase the sequence number by 1
+     *
+     * @param int $pageid
+     * @return none
+     */  
+    public static function increment_page_sequence($pageid) {
+        global $DB;
+        $sequence = $DB->get_field('multipage_pages', 
+                'sequence',  
+                array('id' => $pageid));
+        $DB->set_field('multipage_pages', 
+                'sequence', ($sequence + 1),  
+                array('id' => $pageid));
+    }
+
     /** 
      * Update a page record
      *

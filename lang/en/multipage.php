@@ -50,6 +50,18 @@ $string['multipage_title'] = 'Title of this resource';
 // Capabilities
 $string['multipage:manage'] = 'Manage multipage';
 
+// Page management
+$string['multipage_editing'] = 'Editing multipage';
+$string['manage_pages'] = 'Page management';
+$string['sequence'] = 'sequence';
+$string['title'] = 'Page title';
+$string['nextpage'] = 'Next page';
+$string['prevpage'] = 'Previous page';
+$string['actions'] = 'Actions';
+$string['move_up'] = 'Move up';
+$string['move_down'] = 'Move down';
+$string['showpage'] = 'Preview page';
+
 // Page editing
 $string['edit_page'] = 'Edit page';
 $string['add_page'] = 'Add page';

@@ -94,7 +94,7 @@ if(has_capability('mod/multipage:manage', $modulecontext)) {
     }
     
     // The teacher sees the edit links
-    echo $renderer->fetch_editing_links();
+    echo $renderer->fetch_editing_links($course->id, $multipage->id);
 }
     
 
