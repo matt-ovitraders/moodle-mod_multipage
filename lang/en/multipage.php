@@ -66,3 +66,11 @@ $string['numpages'] = 'Number of pages: {$a}';
 
 // Page navigation
 $string['firstpagelink'] = 'First page';
+$string['homelink'] = 'Home';
+$string['gotonextpage'] = 'Next';
+$string['gotoprevpage'] = 'Previous';
+
+// Page editing
+$string['gotoaddpage'] = 'Add page';
+$string['gotoeditpage'] = 'Edit page';
+$string['gotodeletepage'] = 'Delete page';

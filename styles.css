@@ -2,3 +2,21 @@
 .mod_multipage_page_edit {
     padding-top: 20px;
 }
+.mod_multipage_page_links ul {
+    padding-right: 10px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.mod_multipage_page_links li {
+    display: inline;
+    padding:20px;
+}
+.mod_multipage_edit_links {
+    margin: 20px 0 20px 0 ;
+}
+.mod_multipage_edit_links ul {
+    padding-right: 20px;
+    list-style: none;
+}
