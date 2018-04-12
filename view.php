@@ -64,7 +64,7 @@ $completion->set_module_viewed($cm);
 $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
    
 $renderer = $PAGE->get_renderer('mod_multipage');
-echo $renderer->header($multipage->name, $course->fullname);
+echo $renderer->header($multipage->title, $course->fullname);
 
 // Output the introduction as the first page
 if ($multipage->intro) {
@@ -73,6 +73,15 @@ if ($multipage->intro) {
 
 // Do we have any pages?
 $numpages = mod_multipage\local\pages::count_pages($multipage->id);
+
+// Add a link to the first page
+if ($numpages > 0) {
+    // Get the record # for the first page.
+    $pageid = \mod_multipage\local\pages::
+            get_page_id_from_sequence($multipage->id, 1);
+    echo $renderer->fetch_firstpage_link($course->id, 
+            $multipage->id, $pageid);
+}
 
 //if we are teacher we see stuff.
 if(has_capability('mod/multipage:manage', $modulecontext)) {

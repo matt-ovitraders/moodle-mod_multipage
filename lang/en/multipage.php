@@ -64,3 +64,5 @@ $string['nolink'] = 'none';
 $string['no_pages'] = 'There are no pages yet, add a page';
 $string['numpages'] = 'Number of pages: {$a}';
 
+// Page navigation
+$string['firstpagelink'] = 'First page';

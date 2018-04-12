@@ -109,4 +109,48 @@ class mod_multipage_renderer extends plugin_renderer_base {
         return get_string('numpages', 'mod_multipage', $numpages);
     }
 
+    /**
+     * Show the current page
+     *
+     * @param object $data object instance of current page
+     * @return string html representation of page object
+     */
+    public function show_page($data) {
+        
+        $html = '';
+        // Show page content
+        $html .= html_writer::start_div('mod_multipage_content');
+        $html .= $this->output->heading($data->pagetitle, 4);
+        $html .= $data->pagecontents;
+        $html .= html_writer::end_div();     
+        return $html;
+    }
+
+/**
+     * Returns the link to the a content page
+     *
+     * @param string $courseid
+     * @param string $moduleid
+     * @param string $pagesequence
+
+     * @return string
+     */
+    public function fetch_firstpage_link($courseid, 
+            $multipageid, $pageid) {
+
+        $html = '';
+        $html .= html_writer::start_div('mod_multipage_nav_links');
+
+        $url = new moodle_url('/mod/multipage/showpage.php',
+                    array('courseid' => $courseid, 
+                    'multipageid' => $multipageid, 
+                    'pageid' => $pageid));
+        $html .= html_writer::link($url, 
+                    get_string('firstpagelink', 'mod_multipage'));
+
+        $html .=  html_writer::end_div();
+
+        return $html;
+    }    
+
 }

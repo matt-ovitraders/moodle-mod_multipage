@@ -410,7 +410,7 @@ function multipage_get_editor_options($context) {
  * @return array of [(string)filearea] => (string)description
  */
 function multipage_get_file_areas($course, $cm, $context) {
-    return array();
+    return array('pagecontents' => 'for page files editor content');
 }
 
 /**
@@ -448,7 +448,8 @@ function multipage_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
  */
-function multipage_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
+function multipage_pluginfile($course, $cm, $context, $filearea, array $args, 
+        $forcedownload, array $options=array()) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -457,7 +458,14 @@ function multipage_pluginfile($course, $cm, $context, $filearea, array $args, $f
 
     require_login($course, true, $cm);
 
-    send_file_not_found();
+    $fs = get_file_storage();
+    $relativepath = implode('/', $args);
+    $fullpath = "/$context->id/mod_multipage/$filearea/$relativepath";
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+        return false;
+    }
+    // Finally send the file.
+    send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
 /* Navigation API */

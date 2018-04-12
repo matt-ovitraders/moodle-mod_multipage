@@ -92,5 +92,34 @@ class pages  {
 
         return $data->id;                        
     }
+    
+    /** 
+     * Given a page id return the data for that page record
+     *
+     * @param int $pageid the page id
+     * @return object representing the record
+     */
+    public static function get_page_record($pageid) {
+        global $DB;
+        return $DB->get_record('multipage_pages', 
+                array('id' => $pageid), '*', MUST_EXIST);
+    }
+
+   /** 
+     * Given a multipage id and sequence number, find that page record
+     *
+     * @param int $multipageid the instance id
+     * @param int $sequence, where the page is in the lesson sequence
+     * @return int pageid, the id of the page in the pages table 
+     */
+
+    public static function get_page_id_from_sequence($multipageid, 
+            $sequence) {
+        global $DB;  
+        $data = $DB->get_record('multipage_pages', 
+                array('multipageid' => $multipageid, 
+                'sequence' => $sequence));
+        return $data->id;
+    } 
 
 }
