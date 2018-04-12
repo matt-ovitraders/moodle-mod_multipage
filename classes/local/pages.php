@@ -132,5 +132,74 @@ class pages  {
                 'sequence' => $sequence));
         return $data->id;
     } 
+    /** 
+     * Given a page record id
+     * decrease the sequence number by 1
+     *
+     * @param int $pageid
+     * @return none
+     */  
+    public static function decrement_page_sequence($pageid) {
+        global $DB;
+        $sequence = $DB->get_field('multipage_pages', 
+            'sequence',  
+            array('id' => $pageid));
+        $DB->set_field('multipage_pages', 
+            'sequence', ($sequence - 1),  
+            array('id' => $pageid));
+    }
+    /** 
+     * Update a page record
+     *
+     * @param int $data from edit_page form
+     * @param object $context, the module context
+     */
+    public static function update_page_record($data, $context) {
+        global $DB;
 
+        $pagecontentsoptions = multipage_get_editor_options($context);      
+        $data->timemodified = time();
+
+        $data = file_postupdate_standard_editor(
+                $data,
+                'pagecontents',
+                $pagecontentsoptions, 
+                $context, 
+                'mod_multipage',
+                'pagecontents', 
+                $data->id);
+
+        $DB->update_record('multipage_pages', $data);
+    }
+    /** 
+     * When a page is deleted, remove any links to it
+     *
+     * @param int $multpageid the multipage instance
+     * @param int $pageid the page that was deleted
+     */
+    public static function remove_links($multipageid, $pageid) {
+        global $DB;
+
+        $pagecount = self::count_pages($multipageid);
+        
+        // Run through the pages belonging to this instance
+        if ($pagecount != 0) {
+            for ($p = 1; $p <= $pagecount; $p++ ) { // sequence
+                $pid = self::get_page_id_from_sequence($multipageid, $p);
+                $data = self::get_page_record($pid);
+                // If a link points to this page id
+                // we need to zero it
+                if ($data->nextpageid == $pageid) {
+                    $DB->set_field('multipage_pages', 
+                            'nextpageid', 0,  
+                            array('id' => $pageid));
+                }
+                if ($data->prevpageid == $pageid) {
+                    $DB->set_field('multipage_pages', 
+                            'prevpageid', 0,  
+                            array('id' => $pageid));
+                }
+            }
+        }
+    }
 }

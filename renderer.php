@@ -223,17 +223,20 @@ class mod_multipage_renderer extends plugin_renderer_base {
         $links[] = html_writer::link($add_url, 
                 get_string('gotoaddpage', 'mod_multipage'));
     
-        $edit_url = new moodle_url('/mod/multipage/showpage.php',
+        $edit_url = new moodle_url('/mod/multipage/edit_page.php',
                 array('courseid' => $courseid, 
                 'multipageid' => $data->multipageid, 
-                'pageid' => $data->id));
+                'pageid' => $data->id,
+                'sequence' => $data->sequence));
         $links[] = html_writer::link($edit_url, 
                 get_string('gotoeditpage', 'mod_multipage'));
 
-        $delete_url = new moodle_url('/mod/multipage/showpage.php',
+        $delete_url = new moodle_url('/mod/multipage/delete_page.php',
                 array('courseid' => $courseid, 
-                'multipageid' => $data->multipageid, 
-                'pageid' => $data->id));
+                'multipageid' => $data->multipageid,
+                'sequence' => $data->sequence, 
+                'pageid' => $data->id,
+                'returnto' => 'view'));
         $links[] = html_writer::link($delete_url, 
                 get_string('gotodeletepage', 'mod_multipage'));
 

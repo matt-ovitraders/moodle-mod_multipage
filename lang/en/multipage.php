@@ -74,3 +74,6 @@ $string['gotoprevpage'] = 'Previous';
 $string['gotoaddpage'] = 'Add page';
 $string['gotoeditpage'] = 'Edit page';
 $string['gotodeletepage'] = 'Delete page';
+$string['page_editing'] = 'Editing page';
+$string['page_updated'] = 'Page updated';
+$string['page_deleted'] = 'Page deleted';
