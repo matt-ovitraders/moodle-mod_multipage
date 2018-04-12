@@ -160,16 +160,12 @@ function multipage_refresh_events($courseid = 0) {
 function multipage_delete_instance($id) {
     global $DB;
 
-    if (! $multipage = $DB->get_record('multipage', array('id' => $id))) {
+    if (!$multipage = $DB->get_record('multipage', array('id' => $id))) {
         return false;
     }
-
     // Delete any dependent records here.
-
+    $DB->delete_records('multipage_pages', array('multipageid' => $multipage->id));
     $DB->delete_records('multipage', array('id' => $multipage->id));
-
-    multipage_grade_item_delete($multipage);
-
     return true;
 }
 

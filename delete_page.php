@@ -61,20 +61,19 @@ $return_edit = new moodle_url('/mod/multipage/edit.php',
         array('courseid' => $courseid, 
         'multipageid' => $multipageid));
 
-// Check if any other pages point to this page
-// If so remove the links first.
-\mod_multipage\local\pages::remove_links($multipageid, $pageid, 
-        $modulecontext);
+// Check if any other pages point to this page and fix their links
+\mod_multipage\local\pages::fix_page_links($multipageid, $pageid);
 
 // Delete the page
 $DB->delete_records('multipage_pages',  
         array('multipageid'=>$multipageid,
         'id' => $pageid));
 
+// Find the sequence number of the current last
 $lastpage = 
         \mod_multipage\local\pages::count_pages($multipageid);
 $lastpage++; // last page sequence number
-// Note the id's of pages to change
+// Note the id's of pages to change their sequence numbers
 // get_page_id_from sequence only works if sequence is unique.
 $pagestochange = array();
 // We've deleted a page so lastpage is one short in terms

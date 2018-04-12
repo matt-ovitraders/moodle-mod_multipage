@@ -172,33 +172,38 @@ class pages  {
         $DB->update_record('multipage_pages', $data);
     }
     /** 
-     * When a page is deleted, remove any links to it
+     * Fix the links to a deleted page
      *
-     * @param int $multpageid the multipage instance
-     * @param int $pageid the page that was deleted
+     * @param int $multipageid instance the page is in
+     * @param int $pageid of deleted page
+     * @param object $context, the module context
      */
-    public static function remove_links($multipageid, $pageid) {
+    public static function fix_page_links($multipageid, $pageid) {
         global $DB;
-
-        $pagecount = self::count_pages($multipageid);
         
-        // Run through the pages belonging to this instance
+        $pagedata = self::get_page_record($pageid);
+
+        // Pages to process
+        $pagecount = self::count_pages($multipageid);
         if ($pagecount != 0) {
-            for ($p = 1; $p <= $pagecount; $p++ ) { // sequence
+            for ($p = 1; $p <= $pagecount; $p++ ) {
                 $pid = self::get_page_id_from_sequence($multipageid, $p);
-                $data = self::get_page_record($pid);
-                // If a link points to this page id
-                // we need to zero it
-                if ($data->nextpageid == $pageid) {
-                    $DB->set_field('multipage_pages', 
-                            'nextpageid', 0,  
-                            array('id' => $pageid));
-                }
-                if ($data->prevpageid == $pageid) {
-                    $DB->set_field('multipage_pages', 
-                            'prevpageid', 0,  
-                            array('id' => $pageid));
-                }
+                // Don't worry about this page
+                if ($pid != $pageid) {
+                    $data = self::get_page_record($pid);
+                    if ($data->nextpageid == $pageid) {
+                        // link to the page following the deleted page
+                        $DB->set_field('multipage_pages', 
+                                'nextpageid', $pagedata->nextpageid,  
+                                 array('id' => $pid));
+                    }
+                    if ($data->prevpageid == $pageid) {
+                        // link to the page preceding the deleted page
+                        $DB->set_field('multipage_pages', 
+                                'prevpageid', $pagedata->prevpageid,  
+                                 array('id' => $pid));
+                    }
+               }
             }
         }
     }
