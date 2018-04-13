@@ -74,15 +74,12 @@ class restore_multipage_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('MULTIPAGEEDIT', '/mod/multipage/edit.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('MULTIPAGEADDPAGE', '/mod/multipage/add_page.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('MULTIPAGEVIEWPAGE', '/mod/multipage/add_page.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('MULTIPAGEVIEWBYID', '/mod/multipage/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('MULTIPAGEINDEX', '/mod/multipage/index.php?id=$1', 'course');
-        $rules[] = new restore_decode_rule('MULTIPAGESHOWPAGE', '/mod/multipage/showpage.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('MULTIPAGEEDITPAGE', '/mod/multipage/edit_page.php?id=$1', 'course_module');
-        return $rules;
 
+        $rules[] = new restore_decode_rule('MULTIPAGEINDEX', '/mod/multipage/index.php?id=$1', 'course');
+        
+        $rules[] = new restore_decode_rule('MULTIPAGESHOWPAGE', '/mod/multipage/showpage.php?id=$1&pageid=$2', array('course', 'multipage_pages'));
+        return $rules;
     }
 
     /**

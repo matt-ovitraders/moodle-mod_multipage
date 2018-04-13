@@ -62,39 +62,19 @@ class backup_multipage_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot.'/mod/multipage', '#');
 
-        // Provides the interface for overall management of pages
-        $pattern = '#'.$base.'/edit\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGEEDIT*$1@$';
-        $content = preg_replace($pattern, $replacement, $content);
-
-        // Action for adding a page. Prints an HTML form.
-        $pattern = '#'.$base.'/add_page\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGEADDPAGE*$1@$';
-        $content = preg_replace($pattern, $replacement, $content);
-
-        // Action for editing a page. Prints an HTML form.
-        $pattern = '#'.$base.'/edit_page\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGEEDITPAGE*$1@$';
-        $content = preg_replace($pattern, $replacement, $content);
-
-        // Action for displaying a page. Prints an HTML form.
-        $pattern = '#'.$base.'/showpage\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGESHOWPAGE*$1@$';
-        $content = preg_replace($pattern, $replacement, $content);
-
         // Link to the list of multipages.
         $pattern = '#'.$base.'/index\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGEINDEX*$1@$';
-        $content = preg_replace($pattern, $replacement, $content);
-
-        // This page prints a particular instance of multipage
-        $pattern = '#'.$base.'/view\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGEVIEWPAGE*$1@$';
+        $replacement = '$@MULTIPAGEINDEX*$2@$';
         $content = preg_replace($pattern, $replacement, $content);
 
         // Link to one multipage by cmid
         $pattern = '#'.$base.'/view\.php\?id=([0-9]+)#';
-        $replacement = '$@MULTIPAGEVIEWBYID*$1@$';
+        $replacement = '$@MULTIPAGEVIEWBYID*$2@$';
+        $content = preg_replace($pattern, $replacement, $content);
+
+        // Action for displaying a page.
+        $pattern = '#'.$base.'/showpage\.php\?id=([0-9]+)(&|&amp;)pagedid=([0-9]+)#';
+        $replacement = '$@MULTIPAGESHOWPAGE*$2*$4@$';
         $content = preg_replace($pattern, $replacement, $content);
 
         return $content;
