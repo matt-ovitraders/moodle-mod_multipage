@@ -60,15 +60,42 @@ class backup_multipage_activity_task extends backup_activity_task {
     static public function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot, '/');
+        $base = preg_quote($CFG->wwwroot.'/mod/multipage', '#');
+
+        // Provides the interface for overall management of pages
+        $pattern = '#'.$base.'/edit\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGEEDIT*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
+
+        // Action for adding a page. Prints an HTML form.
+        $pattern = '#'.$base.'/add_page\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGEADDPAGE*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
+
+        // Action for editing a page. Prints an HTML form.
+        $pattern = '#'.$base.'/edit_page\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGEEDITPAGE*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
+
+        // Action for displaying a page. Prints an HTML form.
+        $pattern = '#'.$base.'/showpage\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGESHOWPAGE*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
 
         // Link to the list of multipages.
-        $search = '/('.$base.'\/mod\/multipage\/index.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@MULTIPAGEINDEX*$2@$', $content);
+        $pattern = '#'.$base.'/index\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGEINDEX*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
 
-        // Link to multipage view by moduleid.
-        $search = '/('.$base.'\/mod\/multipage\/view.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@MULTIPAGEVIEWBYID*$2@$', $content);
+        // This page prints a particular instance of multipage
+        $pattern = '#'.$base.'/view\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGEVIEWPAGE*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
+
+        // Link to one multipage by cmid
+        $pattern = '#'.$base.'/view\.php\?id=([0-9]+)#';
+        $replacement = '$@MULTIPAGEVIEWBYID*$1@$';
+        $content = preg_replace($pattern, $replacement, $content);
 
         return $content;
     }

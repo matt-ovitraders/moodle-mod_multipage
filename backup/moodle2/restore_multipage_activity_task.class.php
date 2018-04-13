@@ -63,7 +63,7 @@ class restore_multipage_activity_task extends restore_activity_task {
         $contents = array();
 
         $contents[] = new restore_decode_content('multipage', array('intro'), 'multipage');
-
+        $contents[] = new restore_decode_content('multipage_pages', array('pagecontents'), 'multipage_page');
         return $contents;
     }
 
@@ -74,9 +74,13 @@ class restore_multipage_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
+        $rules[] = new restore_decode_rule('MULTIPAGEEDIT', '/mod/multipage/edit.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('MULTIPAGEADDPAGE', '/mod/multipage/add_page.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('MULTIPAGEVIEWPAGE', '/mod/multipage/add_page.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('MULTIPAGEVIEWBYID', '/mod/multipage/view.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('MULTIPAGEINDEX', '/mod/multipage/index.php?id=$1', 'course');
-
+        $rules[] = new restore_decode_rule('MULTIPAGESHOWPAGE', '/mod/multipage/showpage.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('MULTIPAGEEDITPAGE', '/mod/multipage/edit_page.php?id=$1', 'course_module');
         return $rules;
 
     }
@@ -91,9 +95,10 @@ class restore_multipage_activity_task extends restore_activity_task {
         $rules = array();
 
         $rules[] = new restore_log_rule('multipage', 'add', 'view.php?id={course_module}', '{multipage}');
-        $rules[] = new restore_log_rule('multipage', 'update', 'view.php?id={course_module}', '{multipage}');
+        $rules[] = new restore_log_rule('multipage', 'edit', 'view.php?id={course_module}', '{multipage}');
         $rules[] = new restore_log_rule('multipage', 'view', 'view.php?id={course_module}', '{multipage}');
-
+        $rules[] = new restore_log_rule('multipage', 'update', 'view.php?id={course_module}', '{multipage}');
+        
         return $rules;
     }
 

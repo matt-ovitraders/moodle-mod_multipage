@@ -63,9 +63,10 @@ class backup_multipage_activity_structure_step extends backup_activity_structure
         // Define data sources.
         $multipage->set_source_table('multipage', array('id' => backup::VAR_ACTIVITYID));
 
-         $page->set_source_table('multipage_pages', 
+        // Pages are ordered by sequence number
+        $page->set_source_table('multipage_pages', 
                 array('multipageid' => backup::VAR_PARENTID), 
-                'prevpageid ASC');
+                'sequence ASC');
 
         // Define file annotations
         $multipage->annotate_files('mod_multipage', 'intro', null);
