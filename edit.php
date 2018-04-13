@@ -67,4 +67,10 @@ if ( ($sequence != 0) && ($action != 'none') ) {
 echo $renderer->page_management($course->id, 
         $moduleinstance, $modulecontext);
 
+// Home link
+$return_view = new moodle_url('/mod/multipage/view.php', 
+        array('n' => $multipageid));
+echo html_writer::link($return_view, 
+        get_string('homelink',  'mod_multipage'));
+
 echo $OUTPUT->footer();

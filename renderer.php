@@ -228,7 +228,6 @@ class mod_multipage_renderer extends plugin_renderer_base {
         $edit_url = new moodle_url('/mod/multipage/edit_page.php',
                 array('courseid' => $courseid, 
                 'multipageid' => $data->multipageid, 
-                'pageid' => $data->id,
                 'sequence' => $data->sequence));
         $links[] = html_writer::link($edit_url, 
                 get_string('gotoeditpage', 'mod_multipage'));
@@ -237,7 +236,6 @@ class mod_multipage_renderer extends plugin_renderer_base {
                 array('courseid' => $courseid, 
                 'multipageid' => $data->multipageid,
                 'sequence' => $data->sequence, 
-                'pageid' => $data->id,
                 'returnto' => 'view'));
         $links[] = html_writer::link($delete_url, 
                 get_string('gotodeletepage', 'mod_multipage'));
@@ -342,8 +340,7 @@ class mod_multipage_renderer extends plugin_renderer_base {
         $url = new moodle_url('/mod/multipage/edit_page.php', 
                 array('courseid' => $courseid,
                 'multipageid' => $multipageid, 
-                'sequence' => $data->sequence,
-                'pageid' => $data->id));
+                'sequence' => $data->sequence));
 
         $label = get_string('gotoeditpage', 'mod_multipage');
 
@@ -365,7 +362,6 @@ class mod_multipage_renderer extends plugin_renderer_base {
                 array('courseid' => $courseid,
                 'multipageid' => $multipageid, 
                 'sequence' => $data->sequence,
-                'pageid' => $data->id,
                 'returnto' => 'edit'));
         $label = get_string('gotodeletepage', 'mod_multipage');
         $img = $this->output->pix_icon('t/delete', $label);

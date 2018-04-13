@@ -29,8 +29,6 @@ require_once('edit_page_form.php');
 //fetch URL parameters
 $courseid = required_param('courseid', PARAM_INT);
 $multipageid = required_param('multipageid', PARAM_INT); 
-$pageid = required_param('pageid', PARAM_INT);  // the page we're on
-// sequence in which pages were added to this lesson
 $sequence = required_param('sequence', PARAM_INT); 
 
 // Set course related variables
@@ -42,7 +40,6 @@ $cm = get_coursemodule_from_instance('multipage', $multipageid, $courseid, false
 $PAGE->set_url('/mod/multipage/edit_page.php', 
         array('courseid' => $courseid, 
               'multipageid' => $multipageid, 
-              'pageid' => $pageid,
               'sequence' => $sequence));
 
 require_login($course, true, $cm);
@@ -51,7 +48,7 @@ $modulecontext = context_module::instance($cm->id);
 
 $PAGE->set_context($modulecontext);
 $PAGE->set_pagelayout('course');
-
+$pageid = \mod_multipage\local\pages::get_page_id_from_sequence($multipageid, $sequence);
 $return_showpage = new moodle_url(
         '/mod/multipage/showpage.php', 
         array('courseid' => $courseid, 

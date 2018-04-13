@@ -34,7 +34,6 @@ $courseid = required_param('courseid', PARAM_INT);
 $multipageid = required_param('multipageid', PARAM_INT); 
 // sequence in which pages are added to this lesson
 $sequence = required_param('sequence', PARAM_INT);
-$pageid = required_param('pageid', PARAM_INT);
 $returnto = optional_param('returnto', 'view', PARAM_TEXT);
 
 // Set course related variables
@@ -62,6 +61,7 @@ $return_edit = new moodle_url('/mod/multipage/edit.php',
         'multipageid' => $multipageid));
 
 // Check if any other pages point to this page and fix their links
+$pageid = \mod_multipage\local\pages::get_page_id_from_sequence($multipageid, $sequence);
 \mod_multipage\local\pages::fix_page_links($multipageid, $pageid);
 
 // Delete the page
