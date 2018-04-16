@@ -31,43 +31,19 @@ defined('MOODLE_INTERNAL') || die;
 class reporting  {
 
     /*
-     * Basic Report
+     * Basic Report - get the module recors for this course
      *
+     * @param $courseid - course to get records for
+     * @return array of objects
      */
-    public static function fetch_formatted_field($field, $record) {
-    global $DB;
-        switch($field){
-            case 'id':
-                $ret = $record->id;
-                break;
-
-            case 'name':
-                $ret = $record->name;
-                break;
-            
-            case 'timecreated':
-                $ret = date("Y-m-d H:i:s",$record->timecreated);
-                break;
-           default:
-               if(property_exists($record, $field)){
-                   $ret=$record->{$field};
-               }else{
-                   $ret = '';
-               }
-        }
-        return $ret;
-    }
-    
-    public static function fetch_module_data(){
+    public static function fetch_module_data($courseid){
         global $DB;
-        $records = $DB->get_records(MOD_PAIRWORK_TABLE,array());
-        $data = array();
+        $records = $DB->get_records('multipage', 
+                array('course'=>$courseid), null, 'id, name, title, timecreated');
+        
         foreach ($records as $record) {
-            $data['id'] = self::fetch_formatted_field('id', $record);
-            $data['name'] = self::fetch_formatted_field('name', $record);
-            $data['time_created'] = self::
-                    fetch_formatted_field('time_created', $record);
-        }
-        return $data;
+            $record->timecreated = date("Y-m-d H:i:s",$record->timecreated);
+        } 
+        return $records;
     }
 }

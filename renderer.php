@@ -408,8 +408,8 @@ class mod_multipage_renderer extends plugin_renderer_base {
         $reportspage = new moodle_url('/mod/multipage/reports.php',
         array('courseid' => $courseid, 'multipageid' => $multipageid));
         
-        $row[] = new tabobject('view', $viewpage, 'view');
-        $row[] = new tabobject('reports', $reportspage, 'reports', 'view reports', 'rname');
+        $row[] = new tabobject('view', $viewpage, get_string('viewtab', 'mod_multipage'));
+        $row[] = new tabobject('reports', $reportspage, get_string('reportstab', 'mod_multipage'));
 
         $tabs[] = $row;
         
@@ -422,12 +422,13 @@ class mod_multipage_renderer extends plugin_renderer_base {
      * @param $data - a set of module fields
      * @return string, html table
      */
-    public function show_basic_report($data) {
+    public function show_basic_report($records) {
  
         $table = new html_table();
         $table->head = array(
                 get_string('moduleid', 'mod_multipage'),
                 get_string('multipagename', 'mod_multipage'),
+                get_string('title', 'mod_multipage'),
                 get_string('timecreated', 'mod_multipage'));
         $table->align = 
                 array('left', 'left', 'left');
@@ -437,8 +438,15 @@ class mod_multipage_renderer extends plugin_renderer_base {
         $table->cellspacing = 0;
         $table->cellpadding = '2px';
         $table->width = '80%';  
-
-       return html_writer::table($table);
-
+        foreach ($records as $record) {
+            $data = array();
+            $data[] = $record->id;
+            $data[] = $record->name;
+            $data[] = $record->title;
+            $data[] = $record->timecreated;
+            $table->data[] = $data;
+        }
+       
+        return html_writer::table($table);
     }
 }

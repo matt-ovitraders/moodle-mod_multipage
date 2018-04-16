@@ -92,3 +92,6 @@ $string['page_deleted'] = 'Page deleted';
 
 // reporting
 $string['moduleid'] = 'id';
+$string['viewtab'] = 'view';
+$string['reportstab'] = 'reports';
+$string['timecreated'] = 'Time created';

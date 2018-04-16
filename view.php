@@ -66,7 +66,8 @@ $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->header($multipage->title, $course->fullname);
 
-if(has_capability('mod/multipage:manage', $modulecontext)) {
+// Show reports tab if permission exists
+if(has_capability('mod/multipage:viewreportstab', $modulecontext)) {
     echo $renderer->show_reports_tab($course->id, $multipage->id);
 }
 // Output the introduction as the first page

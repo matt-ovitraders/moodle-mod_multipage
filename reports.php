@@ -42,6 +42,8 @@ require_login($course, true, $cm);
 $coursecontext = context_course::instance($courseid);
 $modulecontext = context_module::instance($cm->id);
 
+require_capability('mod/multipage:viewreportstab',$modulecontext);
+
 $PAGE->set_context($modulecontext);
 $PAGE->set_pagelayout('course');
 $PAGE->set_heading(format_string($course->fullname));
@@ -50,9 +52,13 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->show_reports_tab($courseid, $multipageid);
-$data = mod_multipage\local\reporting::fetch_module_data();
+$data = mod_multipage\local\reporting::fetch_module_data($courseid);
 echo $renderer->show_basic_report($data);
-echo 'a page';
 
+// Home link
+$return_view = new moodle_url('/mod/multipage/view.php', 
+        array('n' => $multipageid));
+echo html_writer::link($return_view, 
+        get_string('homelink',  'mod_multipage'));
 
 echo $OUTPUT->footer();
