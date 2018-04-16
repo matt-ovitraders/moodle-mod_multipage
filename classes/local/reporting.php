@@ -18,7 +18,7 @@
  * Defines report classes
  *
  * @package    mod_multipage
- * @copyright  2016 Richard Jones <richardnz@outlook.com>
+ * @copyright  2018 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
  * @see https://github.com/justinhunt/moodle-mod_pairwork
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die;
 class reporting  {
 
     /*
-     * Basic Report - get the module recors for this course
+     * Basic Report - get the module records for this course
      *
      * @param $courseid - course to get records for
      * @return array of objects

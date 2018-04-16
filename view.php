@@ -18,7 +18,7 @@
  * Prints a particular instance of multipage
  *
  * @package    mod_multipage
- * @copyright  2016 Richard Jones <richardnz@outlook.com>
+ * @copyright  2018 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
  * @see https://github.com/justinhunt/moodle-mod_pairwork
@@ -66,10 +66,14 @@ $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->header($multipage->title, $course->fullname);
 
-// Show reports tab if permission exists
-if(has_capability('mod/multipage:viewreportstab', $modulecontext)) {
-    echo $renderer->show_reports_tab($course->id, $multipage->id);
+// Show reports tab if permission exists and admin has allowed
+$config = get_config('mod_multipage');
+if ($config->enablereports) {
+    if(has_capability('mod/multipage:viewreportstab', $modulecontext)) {
+        echo $renderer->show_reports_tab($course->id, $multipage->id);
+    }
 }
+
 // Output the introduction as the first page
 if ($multipage->intro) {
     echo $renderer->fetch_intro($multipage, $cm->id);

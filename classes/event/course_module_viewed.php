@@ -18,7 +18,7 @@
  * Defines the view event.
  *
  * @package    mod_multipage
- * @copyright  2016 Richard Jones <richardnz@outlook.com>
+ * @copyright  2018 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
  *

@@ -15,25 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_multipage instance list viewed event.
- *
- * @package    mod_multipage
- * @copyright  2016 Your Name <your@email.address>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-namespace mod_multipage\event;
-
-defined('MOODLE_INTERNAL') || die();
-
-/**
- * The mod_multipage instance list viewed event class.
+ * The settings form for the module (available to admins)
  *
  * @package    mod_multipage
  * @copyright  2018 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
- *
+ * @see https://github.com/justinhunt/moodle-mod_pairwork
  */
-class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
+
+defined('MOODLE_INTERNAL') || die;
+require_once($CFG->dirroot.'/mod/multipage/lib.php');
+
+if ($ADMIN->fulltree) {
+  
+    $settings->add(new admin_setting_configcheckbox(
+        'mod_multipage' . '/enablereports',
+        get_string('enablereports', 'mod_multipage'), 
+        get_string('enablereports_desc', 'mod_multipage'),'0'));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'mod_multipage' . '/enableindex',
+        get_string('enableindex', 'mod_multipage'), 
+        get_string('enableindex_desc', 'mod_multipage'),'0'));
 }

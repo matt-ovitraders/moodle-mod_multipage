@@ -18,11 +18,8 @@
 /**
  * English strings for multipage
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_multipage
- * @copyright  2016 Richard Jones <richardnz@outlook.com>
+ * @copyright  2018 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
  *
@@ -95,3 +92,9 @@ $string['moduleid'] = 'id';
 $string['viewtab'] = 'view';
 $string['reportstab'] = 'reports';
 $string['timecreated'] = 'Time created';
+
+// Admin settings
+$string['enablereports'] = 'Show reports tab';
+$string['enablereports_desc'] = 'Check to allow teachers to see reports';
+$string['enableindex'] = 'Show page index';
+$string['enableindex_desc'] = 'Check to allow teachers to show page index';
