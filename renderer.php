@@ -21,7 +21,7 @@
  * @copyright  2016 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
- *
+ * @see https://github.com/justinhunt/moodle-mod_pairwork
  */
 
 class mod_multipage_renderer extends plugin_renderer_base {
@@ -392,5 +392,53 @@ class mod_multipage_renderer extends plugin_renderer_base {
         }
         return implode(' ', $actions);
     } 
+   /**
+     * Returns HTML to display a report tab
+     *
+     * @param $context - module contex
+     * @param $cmid - course module id
+     * @return string, a set of tabs
+     */
+    public function show_reports_tab($courseid, $multipageid) {
 
+        $tabs = $row = $inactive = $activated = array();
+        $currenttab = '';
+        $viewpage = new moodle_url('/mod/multipage/view.php',
+        array('n'=> $multipageid));
+        $reportspage = new moodle_url('/mod/multipage/reports.php',
+        array('courseid' => $courseid, 'multipageid' => $multipageid));
+        
+        $row[] = new tabobject('view', $viewpage, 'view');
+        $row[] = new tabobject('reports', $reportspage, 'reports', 'view reports', 'rname');
+
+        $tabs[] = $row;
+        
+        print_tabs($tabs, $currenttab, $inactive, $activated);
+
+    }
+    /**
+     * Returns HTML to a basic report
+     *
+     * @param $data - a set of module fields
+     * @return string, html table
+     */
+    public function show_basic_report($data) {
+ 
+        $table = new html_table();
+        $table->head = array(
+                get_string('moduleid', 'mod_multipage'),
+                get_string('multipagename', 'mod_multipage'),
+                get_string('timecreated', 'mod_multipage'));
+        $table->align = 
+                array('left', 'left', 'left');
+        $table->wrap = 
+                array('nowrap', '', 'nowrap');
+        $table->tablealign = 'left';
+        $table->cellspacing = 0;
+        $table->cellpadding = '2px';
+        $table->width = '80%';  
+
+       return html_writer::table($table);
+
+    }
 }

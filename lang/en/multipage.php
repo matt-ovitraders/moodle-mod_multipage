@@ -89,3 +89,6 @@ $string['gotodeletepage'] = 'Delete page';
 $string['page_editing'] = 'Editing page';
 $string['page_updated'] = 'Page updated';
 $string['page_deleted'] = 'Page deleted';
+
+// reporting
+$string['moduleid'] = 'id';

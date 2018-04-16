@@ -21,7 +21,7 @@
  * @copyright  2016 Richard Jones <richardnz@outlook.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_newmodule
- *
+ * @see https://github.com/justinhunt/moodle-mod_pairwork
  */
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
@@ -66,6 +66,9 @@ $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->header($multipage->title, $course->fullname);
 
+if(has_capability('mod/multipage:manage', $modulecontext)) {
+    echo $renderer->show_reports_tab($course->id, $multipage->id);
+}
 // Output the introduction as the first page
 if ($multipage->intro) {
     echo $renderer->fetch_intro($multipage, $cm->id);
@@ -86,7 +89,7 @@ if ($numpages > 0) {
 //if we are teacher we see stuff.
 if(has_capability('mod/multipage:manage', $modulecontext)) {
     
-    // If there are no pages, we add an add_page link
+    // If there are no pages, we add a add_page link
     if($numpages == 0) {
         echo $renderer->add_first_page_link($course->id, $multipage->id, 0);    
     } else {
