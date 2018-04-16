@@ -97,4 +97,7 @@ $string['timecreated'] = 'Time created';
 $string['enablereports'] = 'Show reports tab';
 $string['enablereports_desc'] = 'Check to allow teachers to see reports';
 $string['enableindex'] = 'Show page index';
-$string['enableindex_desc'] = 'Check to allow teachers to show page index';
+$string['enableindex_desc'] = 'Check to show page index';
+
+// Page index
+$string['page_index_header'] = 'Index';

@@ -58,6 +58,8 @@ $data->pagecontents = file_rewrite_pluginfile_urls($data->pagecontents, 'pluginf
         $contextid, 'mod_multipage', 'pagecontents', $pageid);
 
 $renderer = $PAGE->get_renderer('mod_multipage');
+$page_links = \mod_multipage\local\pages::fetch_page_links($multipageid, $pageid);
+echo $renderer->fetch_index($page_links);
 echo $renderer->show_page($data);
 echo $renderer->show_page_nav_links($courseid, $data);
 

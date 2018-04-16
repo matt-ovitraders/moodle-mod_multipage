@@ -69,6 +69,39 @@ class pages  {
         return $page_titles;
     }
     /** 
+     * Get the page links for the multipage index
+     *
+     * @param int $multipageid the id of a multipage
+     * @param int $course id
+     * @param boolean $homepage true if this is the home page
+     * @return array of links to pages in the multipage
+     */
+    public static function fetch_page_links($multipageid, $courseid) { 
+        global $CFG; 
+        require_once($CFG->libdir . '/weblib.php');
+        require_once($CFG->libdir . '/outputcomponents.php');
+        $page_links = array();
+        
+        // Count the content pages and make the links
+        $pagecount = self::count_pages($multipageid);
+        if ($pagecount != 0) {
+            for ($p = 1; $p <= $pagecount; $p++ ) {
+                $pageid = self::get_page_id_from_sequence(
+                        $multipageid, $p);
+                $data = self::get_page_record($pageid);
+                $page_url = new 
+                        \moodle_url('/mod/multipage/showpage.php', 
+                        array('courseid' => $courseid, 
+                        'multipageid' => $data->multipageid, 
+                        'pageid' => $pageid));
+                $link = \html_writer::link($page_url, 
+                        $data->pagetitle);
+                $page_links[] = $link;   
+           }
+        }
+       return $page_links;
+    }
+    /** 
      * Add a page record to the pages table
      *
      * @param $data object - the data to add

@@ -449,4 +449,24 @@ class mod_multipage_renderer extends plugin_renderer_base {
        
         return html_writer::table($table);
     }
+
+    /**
+     * Returns the html for the page index
+     * module's instance settings page
+     * @param array $page_links for the lesson page index
+     * @return string
+     */
+    public function fetch_index($page_links) {
+        // page index
+        $html = html_writer::start_div(
+                'mod_multipage_page_index_container');
+        $html .= $this->output->heading(
+                get_string('page_index_header', 'mod_multipage'), 4, 'main');
+        $html .= html_writer::start_div('mod_multipage_page_index');
+        $html .= html_writer::alist($page_links, null, 'ul');
+        $html .= html_writer::end_div();  // page index      
+        $html .= html_writer::end_div();  // container
+
+        return $html;
+    }
 }
