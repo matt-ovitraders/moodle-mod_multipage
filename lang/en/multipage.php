@@ -108,3 +108,6 @@ $string['page_index_header'] = 'Index';
 
 // Settings navigation
 $string['namechange'] = 'Name changer';
+
+// Scheduled task
+$string['multipagetask'] = 'Multipage task';

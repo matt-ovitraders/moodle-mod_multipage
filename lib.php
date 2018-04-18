@@ -251,18 +251,15 @@ function multipage_print_recent_mod_activity($activity, $courseid, $detail, $mod
 }
 
 /**
- * Function to be run periodically according to the moodle cron
+ * A task called from scheduled or adhoc
  *
- * This function searches for things that need to be done, such
- * as sending out mail, toggling flags etc ...
+ * @param progress_trace trace object
  *
- * Note that this has been deprecated in favour of scheduled task API.
- *
- * @return boolean
  */
-function multipage_cron () {
-    return true;
+function multipage_dotask(progress_trace $trace) {
+    $trace->output('executing dotask');
 }
+
 
 /**
  * Returns all other caps used in the module
