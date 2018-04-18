@@ -39,7 +39,7 @@ class multipage_scheduled extends \core\task\scheduled_task {
         
     public function get_name() {
         // Shown in admin screens
-        return get_string('multipagetask', 'mod_multichoice');
+        return get_string('multipagetask', 'mod_multipage');
     }
     
      /**

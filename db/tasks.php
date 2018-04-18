@@ -4,7 +4,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = array(
     array(
-    'classname' => '\mod_multichoice\task\multichoice_scheduled',                                                          
+    'classname' => '\mod_multipage\task\multipage_scheduled',                                                          
     'blocking' => 0,                                                                                             
     'minute' => '*/5',
     'hour' => '*',
