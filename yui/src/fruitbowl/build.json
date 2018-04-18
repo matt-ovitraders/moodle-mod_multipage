@@ -1,0 +1,10 @@
+{
+  "name": "moodle-block_fruit-fruitbowl",
+  "builds": {
+    "moodle-block_fruit-fruitbowl": {
+      "jsfiles": [
+        "fruitbowl.js"
+      ]
+    }
+  }
+}

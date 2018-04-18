@@ -62,7 +62,12 @@ $completion->set_module_viewed($cm);
 
 // Print the page header.
 $PAGE->set_url('/mod/multipage/view.php', array('id' => $cm->id));
-   
+$PAGE->requires->yui_module('moodle-block_fruit-fruitbowl',
+        'M.block_fruit.fruitbowl.init',
+        array(array(
+            'key1' => 'value1',
+            'key2' => 'value2',
+        )));   
 $renderer = $PAGE->get_renderer('mod_multipage');
 echo $renderer->header($multipage->title, $course->fullname);
 

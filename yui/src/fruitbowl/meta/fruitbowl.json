@@ -1,0 +1,8 @@
+{
+  "moodle-block_fruit-fruitbowl": {
+    "requires": [
+        "base",
+        "node"
+    ]
+  }
+}
