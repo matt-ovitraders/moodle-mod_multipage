@@ -78,6 +78,7 @@ if ($data = $mform->get_data()) {
     $data->multipageid = $multipageid;
     $data->nextpageid = (int) $data->nextpageid;
     $data->prevpageid = (int) $data->prevpageid;  
+    $data->show_toggle = (int) $data->show_toggle;
     $data->id = $pageid;
     \mod_multipage\local\pages::update_page_record($data, $modulecontext);
     redirect($return_showpage, 

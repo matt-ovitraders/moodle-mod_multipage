@@ -58,9 +58,19 @@ $data->pagecontents = file_rewrite_pluginfile_urls($data->pagecontents, 'pluginf
         $contextid, 'mod_multipage', 'pagecontents', $pageid);
 
 $renderer = $PAGE->get_renderer('mod_multipage');
-$page_links = \mod_multipage\local\pages::fetch_page_links($multipageid, $courseid);
-echo $renderer->fetch_index($page_links);
+
+// Add an index, if permitted
+$config = get_config('mod_multipage');
+if($config->enableindex) {
+    $page_links = \mod_multipage\local\pages::
+            fetch_page_links($multipageid, $courseid);
+    echo $renderer->fetch_index($page_links);
+}
+
 echo $renderer->show_page($data);
+if ($data->show_toggle) {
+    echo '<p><strong>toggle section here</strong></p>';
+}
 echo $renderer->show_page_nav_links($courseid, $data);
 
 if(has_capability('mod/multipage:manage', $modulecontext)) {

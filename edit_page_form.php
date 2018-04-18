@@ -60,7 +60,13 @@ class multipage_edit_page_form extends moodleform {
         $mform->addElement('select', 'nextpageid', get_string('getnextpage', 'mod_multipage'), $this->_customdata['page_titles']);
         
         $mform->setType('nextpage', PARAM_TEXT);  
-        $mform->setType('prevpage', PARAM_TEXT);   
+        $mform->setType('prevpage', PARAM_TEXT); 
+
+        // Show the toggle section?
+        $mform->addElement('advcheckbox', 'show_toggle', 
+                get_string('show_toggle', 'mod_multipage'), 
+                get_string('show_toggle_text', 'mod_multipage'),
+                null, array(0, 1));  
 
         // Hidden fields
         $mform->addElement('hidden', 'courseid', $this->_customdata['courseid']);

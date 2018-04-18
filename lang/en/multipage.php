@@ -86,6 +86,8 @@ $string['gotodeletepage'] = 'Delete page';
 $string['page_editing'] = 'Editing page';
 $string['page_updated'] = 'Page updated';
 $string['page_deleted'] = 'Page deleted';
+$string['show_toggle'] ='Display sliding panel';
+$string['show_toggle_text'] ='Will display if checked';
 
 // reporting
 $string['moduleid'] = 'id';

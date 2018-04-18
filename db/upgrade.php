@@ -73,5 +73,23 @@ function xmldb_multipage_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2018041800, 'multipage');
     }
 
+    // Add the show toggle section field
+    if ($oldversion < 2018041801) {
+
+        // Define field to hold state of checkbox
+        // Follows field pagecontentsformat.
+        $table = new xmldb_table('multipage_pages');
+        $field = new xmldb_field('show_toggle', 
+                XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED, 
+                XMLDB_NOTNULL, null, '1','pagecontentsformat');
+
+        // Add field show_toggle
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2018041801, 'multipage');
+    }
+
     return true;
 }
