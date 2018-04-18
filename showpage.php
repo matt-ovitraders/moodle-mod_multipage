@@ -69,7 +69,8 @@ if($config->enableindex) {
 
 echo $renderer->show_page($data);
 if ($data->show_toggle) {
-    echo '<p><strong>toggle section here</strong></p>';
+    echo 'togglename: ' . $data->togglename . '<br>';
+    echo 'toggletext: ' . $data->toggletext;
 }
 echo $renderer->show_page_nav_links($courseid, $data);
 

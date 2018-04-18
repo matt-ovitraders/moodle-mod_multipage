@@ -88,6 +88,8 @@ $string['page_updated'] = 'Page updated';
 $string['page_deleted'] = 'Page deleted';
 $string['show_toggle'] ='Display sliding panel';
 $string['show_toggle_text'] ='Will display if checked';
+$string['togglename'] ='Text for sliding panel button';
+$string['toggletext'] ='Text inside sliding panel';
 
 // reporting
 $string['moduleid'] = 'id';

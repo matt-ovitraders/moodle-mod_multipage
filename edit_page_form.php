@@ -68,6 +68,15 @@ class multipage_edit_page_form extends moodleform {
                 get_string('show_toggle_text', 'mod_multipage'),
                 null, array(0, 1));  
 
+        // toggle and text
+        $mform->addElement('text', 'togglename', get_string('togglename', 'mod_multipage'), array('size'=>'60'));
+        $mform->setType('togglename', PARAM_TEXT);
+        $mform->addElement('text', 'toggletext', get_string('toggletext', 'mod_multipage'), array('size'=>'255'));
+        $mform->setType('toggletext', PARAM_TEXT);
+
+        $mform->disabledIf('togglename', 'show_toggle', 'unchecked');
+        $mform->disabledIf('toggletext', 'show_toggle', 'unchecked');
+
         // Hidden fields
         $mform->addElement('hidden', 'courseid', $this->_customdata['courseid']);
         $mform->addElement('hidden', 'multipageid', $this->_customdata['multipageid']);

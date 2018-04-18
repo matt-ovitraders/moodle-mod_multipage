@@ -80,6 +80,7 @@ if ($data = $mform->get_data()) {
     $data->multipageid = $multipageid;
     $data->nextpageid = (int) $data->nextpageid;
     $data->prevpageid = (int) $data->prevpageid; 
+    $data->show_toggle = (int) $data->show_toggle;
     \mod_multipage\local\pages::add_page_record($data, $modulecontext);
     redirect($return_view, get_string('page_saved', 'mod_multipage'), 2);
 }
