@@ -33,3 +33,12 @@
   float:right;
   padding: 10px;
 }
+.mod_multipage_button_div {
+  padding: 10px;
+}
+.mod_multipage_panel_div {
+  display: none;
+  padding: 10px;
+  margin: 5px;
+  background-color: #f5f5f5;
+}

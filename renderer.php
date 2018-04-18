@@ -469,4 +469,27 @@ class mod_multipage_renderer extends plugin_renderer_base {
 
         return $html;
     }
+   /**
+     * Returns the html for the sliding panel
+     * @param object $data includes panel data
+     * @return string - html
+     */
+    public function show_panel($data) {
+        
+        $html = '';
+        
+        $this->page->requires->js_call_amd(
+                'mod_multipage/show_panel', 'init');
+        
+        $button = html_writer::tag('button', $data->togglename, 
+                array('class' => 'mod_multipage_button btn btn-info'));
+        
+        $html .= html_writer::div($button, 
+                'mod_multipage_button_div');
+
+        $html .= html_writer::div($data->toggletext, 
+                'mod_multipage_panel_div');
+
+        return $html;
+    }
 }

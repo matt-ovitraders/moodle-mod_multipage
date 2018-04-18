@@ -68,9 +68,10 @@ if($config->enableindex) {
 }
 
 echo $renderer->show_page($data);
+
+// show the panel, if required
 if ($data->show_toggle) {
-    echo 'togglename: ' . $data->togglename . '<br>';
-    echo 'toggletext: ' . $data->toggletext;
+    echo $renderer->show_panel($data);
 }
 echo $renderer->show_page_nav_links($courseid, $data);
 
