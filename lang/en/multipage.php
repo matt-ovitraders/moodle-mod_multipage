@@ -105,3 +105,6 @@ $string['enableindex_desc'] = 'Check to show page index';
 
 // Page index
 $string['page_index_header'] = 'Index';
+
+// Settings navigation
+$string['namechange'] = 'Name changer';

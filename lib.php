@@ -490,5 +490,10 @@ function multipage_extend_navigation(navigation_node $navref, stdClass $course, 
  * @param navigation_node $multipagenode multipage administration node
  */
 function multipage_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $multipagenode=null) {
-    // TODO Delete this function and its docblock, or implement it.
+
+    global $PAGE;
+    $namechange_url = new moodle_url('/mod/multipage/namechanger.php',
+            array('courseid'=>$PAGE->course->id));
+    $multipagenode->add(get_string('namechange', 'mod_multipage'), 
+            $namechange_url);
 }
