@@ -24,10 +24,20 @@ class page_created extends \core\event\base {
     }
 
     /**
+     * Returns a localised string
      *
      * @return string
      */
     public static function get_name() {
         return get_string('eventpagecreated', 'mod_multipage');
+    }
+    /**
+     * Returns non-localised event description with id's for admin use only.
+     *
+     * @return string
+     */
+    public function get_description() {
+        return "The user with id '$this->userid' has created a page with the ".
+                "id '$this->objectid' in the multipage activity with course module id '$this->contextinstanceid'.";
     }
 }
