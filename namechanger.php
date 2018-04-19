@@ -94,9 +94,16 @@ if ($mform->is_cancelled()) {
     exit;
 }
 
-//if we have data, then our job here is to save it and return to the quiz edit page
+//if we have data, then our job here is to save it and return
 if ($data = $mform->get_data()) {
-        $DB->update_record('multipage',$data);
+        
+        // $DB->update_record('multipage',$data);
+        
+        // Replace update with call to ad_hoc task
+        $updatetask = new \mod_multipage\task\multipage_adhoc();
+        $updatetask->set_custom_data($data);
+        \core\task\manager::queue_adhoc_task($updatetask);
+
         redirect($PAGE->url,get_string('updated','core',$data->name),2);
 }
 

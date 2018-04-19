@@ -42,8 +42,7 @@ class multipage_adhoc extends \core\task\adhoc_task {
      public function execute(){
         $trace = new \text_progress_trace();
         $cd =  $this->get_custom_data();;
-        //$trace->output($cd->somedata)
-            multipage_dotask($trace);
+            multipage_do_adhoc_task($trace, $cd);
     }
         
 }

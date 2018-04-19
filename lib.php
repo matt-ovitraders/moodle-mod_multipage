@@ -259,6 +259,19 @@ function multipage_print_recent_mod_activity($activity, $courseid, $detail, $mod
 function multipage_dotask(progress_trace $trace) {
     $trace->output('executing dotask');
 }
+/**
+ * A task called from adhoc
+ *
+ * @param progress_trace trace object
+ * @param $data - form data to update a database record
+ */
+function multipage_do_adhoc_task(progress_trace $trace, $data) {
+    global $DB;
+    $trace->output('executing dotask');
+    if ($DB->record_exists('multipage', array('id' => $data->id))) {
+        $DB->update_record('multipage', $data);
+    }
+}
 
 
 /**
