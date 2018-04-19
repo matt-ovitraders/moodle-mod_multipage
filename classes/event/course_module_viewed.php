@@ -44,7 +44,14 @@ class course_module_viewed extends \core\event\course_module_viewed {
      * Initialize the event
      */
     protected function init() {
+        
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'multipage';
         parent::init();
+    }
+
+    public static function get_name() {
+        return get_string('multipageviewed', 'mod_multipage');
     }
 }

@@ -111,3 +111,7 @@ $string['namechange'] = 'Name changer';
 
 // Scheduled task
 $string['multipagetask'] = 'Multipage task';
+
+// Event
+$string['multipageviewed'] = 'Multipage viewed';
+$string['eventpagecreated'] = 'Page created';

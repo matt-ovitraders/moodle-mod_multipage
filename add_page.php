@@ -82,6 +82,15 @@ if ($data = $mform->get_data()) {
     $data->prevpageid = (int) $data->prevpageid; 
     $data->show_toggle = (int) $data->show_toggle;
     \mod_multipage\local\pages::add_page_record($data, $modulecontext);
+
+    // Trigger an event when a page is created
+    $eventparams = array('context' => $modulecontext,
+            'objectid' => $data->id);
+    $event = \mod_multipage\event\page_created::create($eventparams);
+    $event->add_record_snapshot('course', $PAGE->course);
+    $event->add_record_snapshot($PAGE->cm->modname, $moduleinstance);
+    $event->trigger();
+
     redirect($return_view, get_string('page_saved', 'mod_multipage'), 2);
 }
 
