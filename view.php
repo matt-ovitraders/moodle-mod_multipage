@@ -96,7 +96,7 @@ if ($numpages > 0) {
             $multipage->id, $pageid);
 }
 
-//if we are teacher we see stuff.
+//if we are teacher we see stuff
 if(has_capability('mod/multipage:manage', $modulecontext)) {
     
     // If there are no pages, we add a add_page link

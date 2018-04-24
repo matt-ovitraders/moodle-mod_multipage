@@ -67,14 +67,9 @@ class backup_multipage_activity_task extends backup_activity_task {
         $replacement = '$@MULTIPAGEINDEX*$2@$';
         $content = preg_replace($pattern, $replacement, $content);
 
-        // Link to one multipage by cmid
+        // Link to view multipage by moduleid
         $pattern = '#'.$base.'/view\.php\?id=([0-9]+)#';
         $replacement = '$@MULTIPAGEVIEWBYID*$2@$';
-        $content = preg_replace($pattern, $replacement, $content);
-
-        // Action for displaying a page.
-        $pattern = '#'.$base.'/showpage\.php\?id=([0-9]+)(&|&amp;)pagedid=([0-9]+)#';
-        $replacement = '$@MULTIPAGESHOWPAGE*$2*$4@$';
         $content = preg_replace($pattern, $replacement, $content);
 
         return $content;

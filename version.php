@@ -27,9 +27,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_multipage';
-$plugin->version = 2018041903;
+$plugin->version = 2018042405;
 $plugin->release = 'v0.0';
 $plugin->requires = 2017051506; // Designed for Moodle 3.4
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity = MATURITY_BETA;
 $plugin->cron = 0;
 $plugin->dependencies = array();

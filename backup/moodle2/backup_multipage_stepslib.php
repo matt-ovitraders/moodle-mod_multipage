@@ -69,8 +69,9 @@ class backup_multipage_activity_structure_step extends backup_activity_structure
                 'sequence ASC');
 
         // Define file annotations
-        $multipage->annotate_files('mod_multipage', 'intro', null);
         $page->annotate_files('mod_multipage', 'pagecontents', 'id');
+        $multipage->annotate_files('mod_multipage', 'intro', null);
+        
 
         // Return the root element (multipage), wrapped into standard activity structure.
         return $this->prepare_activity_structure($multipage);
