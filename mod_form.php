@@ -79,6 +79,16 @@ class mod_multipage_mod_form extends moodleform_mod {
         $mform->addElement('text', 'title', get_string('multipage_title', 'mod_multipage'));
         $mform->setType('title', PARAM_TEXT);
 
+        $mform->addElement('static', 'label', get_string('multipage_settings', 'mod_multipage'));
+
+/* We should probably have the index option here as well 
+   for the teacher 
+   Todo: add a field to the multipage table to reflect the state 
+         of this checkbox
+
+        $mform->addElement('advcheckbox', 'showindex', get_string('showindex', 'mod_multipage'));
+        $mform->setDefault('showindex', $config->enableindex);
+*/
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
 

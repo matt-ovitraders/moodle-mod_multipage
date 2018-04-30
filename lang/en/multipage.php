@@ -31,9 +31,14 @@ defined('MOODLE_INTERNAL') || die();
 $string['modulename'] = 'Multipage';
 $string['modulenameplural'] = 'Multipages';
 $string['modulename_help'] = 'Use the multipage module for a simple sequential display of pages with an optional index | The multipage module allows the creation and addition of multiple pages of content.';
+// Capabilities
+$string['multipage:manage'] = 'Manage multipage';
 $string['multipage:addinstance'] = 'Add a new multipage';
 $string['multipage:submit'] = 'Submit multipage';
 $string['multipage:view'] = 'View multipage';
+$string['multipage:viewreportstab'] = 'View reports';
+
+// Instance settings
 $string['multipagefieldset'] = 'Custom example fieldset';
 $string['multipagename'] = 'multipage name';
 $string['multipagename_help'] = 'This is the content of the help tooltip associated with the multipagename field. Markdown syntax is supported.';
