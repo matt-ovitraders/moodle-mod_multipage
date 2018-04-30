@@ -66,6 +66,7 @@ $capabilities = array(
         'archetypes' => array(
             'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
+            'student' => CAP_ALLOW
         )
     )
 );
