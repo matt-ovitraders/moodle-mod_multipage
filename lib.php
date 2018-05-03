@@ -394,6 +394,45 @@ function multipage_update_grades(stdClass $multipage, $userid = 0) {
     grade_update('mod/multipage', $multipage->course, 'mod', 'multipage', $multipage->id, 0, $grades);
 }
 
+/* Comments API */
+// Validate the comment
+function mod_multipage_comment_validate($comment_param) {
+     global $DB;
+    // validate comment area
+    if ($comment_param->commentarea != 'pagecomments') {
+        throw new comment_exception('invalidcommentarea');
+    }
+    // get page record to validate itemid (pageid record)
+    if (!$record = $DB->get_record('multipage_pages', 
+            array('id'=>$comment_param->itemid))) {
+        throw new comment_exception('invalidcommentitemid');
+    }
+    // Get the multipage data record
+    if (!$data = $DB->get_record('multipage', 
+            array('id'=>$record->multipageid))) {
+        throw new comment_exception('invalidid', 'multipage');
+    }
+    // get the course record
+    if (!$course = $DB->get_record('course', 
+            array('id'=>$data->course))) {
+        throw new comment_exception('coursemisconf');
+    }
+    return true;
+}
+// Who can post comments
+function mod_multipage_comment_permissions($comment_param) {   
+   $canpost = has_capability('mod/multipage:addcomment', $comment_param->context);
+    return array('post' => $canpost, 'view' => true);
+}
+
+// Add comment - we checked the capability already
+// We also restricted cabability addcomment to students and above
+// in access.php as well as the showpage visibility of the area.
+function mod_multipage_comment_add($comment_param) {
+    return true;
+}   
+
+
 /* File API */
 
 // Return editor options
@@ -416,7 +455,8 @@ function multipage_get_editor_options($context) {
  * @return array of [(string)filearea] => (string)description
  */
 function multipage_get_file_areas($course, $cm, $context) {
-    return array('pagecontents' => 'for page files editor content');
+    return array('pagecontents' => 'for page files editor content',
+            'pagecomments' => 'for page comment area');
 }
 
 /**

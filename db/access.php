@@ -69,6 +69,15 @@ $capabilities = array(
             'student' => CAP_ALLOW
         ),
     ),
+    'mod/multipage:addcomment' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW            
+        ),
+    ),
     'mod/multipage:manage' => array (
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
