@@ -37,6 +37,7 @@ $string['multipage:addinstance'] = 'Add a new multipage';
 $string['multipage:submit'] = 'Submit multipage';
 $string['multipage:view'] = 'View multipage';
 $string['multipage:viewreportstab'] = 'View reports';
+$string['multipage:exportpages'] = 'Export pages';
 
 // Instance settings
 $string['multipagefieldset'] = 'Custom example fieldset';
@@ -81,6 +82,8 @@ $string['numpages'] = 'Number of pages: {$a}';
 // Page navigation
 $string['firstpagelink'] = 'First page';
 $string['homelink'] = 'Home';
+$string['exportlink'] = 'Export pages (csv)';
+$string['downloadpages'] = 'Download multipage pages';
 $string['gotonextpage'] = 'Next';
 $string['gotoprevpage'] = 'Previous';
 

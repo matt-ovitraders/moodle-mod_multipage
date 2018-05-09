@@ -392,6 +392,20 @@ class mod_multipage_renderer extends plugin_renderer_base {
         }
         return implode(' ', $actions);
     } 
+    /**
+     * Page management navigation links
+     *
+     * @param the links to output
+     * @return the list of links in a div
+     */
+    public function page_management_links($links) {
+    
+        $html = html_writer::start_div('mod_multipage_page_links');  
+        $html .= html_writer::alist($links, null, 'ul');
+        $html .= html_writer::end_div();  // pagelinks
+        
+        return $html;
+    } 
    /**
      * Returns HTML to display a report tab
      *
@@ -491,5 +505,32 @@ class mod_multipage_renderer extends plugin_renderer_base {
                 'mod_multipage_panel_div');
 
         return $html;
+    }
+    public function render_pages_csv ($multipage, $filename) {
+        
+        $fields = \mod_multipage\local\reporting::fetch_headers();
+        $records = \mod_multipage\local\reporting::fetch_page_data($multipage);
+
+        header("Content-Disposition: attachment; 
+                filename=$filename.csv");
+        header("Content-Type: text/comma-separated-values");
+
+        //echo header
+        $quote = '"';
+        $delim= ",";
+        $heading="";
+        foreach($field as $headfield){
+            $heading .= $quote . $headfield . $quote . $delim;
+        }
+        echo $heading . $newline;
+        
+        //echo data rows
+        foreach ($records as $row) {
+            $datarow = "";
+            foreach($fields as $field){
+                $datarow .= $quote . $row->{$field} . $quote . $delim ;
+            }
+            echo $datarow . $newline;
+        }
     }
 }

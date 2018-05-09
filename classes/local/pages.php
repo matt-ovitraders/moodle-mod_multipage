@@ -78,8 +78,8 @@ class pages  {
      */
     public static function fetch_page_links($multipageid, $courseid) { 
         global $CFG; 
-        require_once($CFG->libdir . '/weblib.php');
-        require_once($CFG->libdir . '/outputcomponents.php');
+        //require_once($CFG->libdir . '/weblib.php');
+        //require_once($CFG->libdir . '/outputcomponents.php');
         $page_links = array();
         
         // Count the content pages and make the links
@@ -322,5 +322,34 @@ class pages  {
                }
             }
         }
+    }
+    public static function export_pages($multipageid, $filename) {
+        require_once($CFG->libdir.'/dataformatlib.php');
+        $fields = array('id' => 'id',
+
+        'multipageid' => 'multipageid',
+        'sequence' => 'sequence',
+        'prevpageid' => 'prevpageid',
+        'nextpageid' => 'nextpageid',
+        'pagetitle' => 'pagetitle',
+        'pagecontents' => 'pagecontents',
+        'pagecontentsformat' => 'pagecontentsformat',
+        'show_toggle' => 'show_toggle',
+        'togglename' => 'togglename',
+        'toggletext' => 'toggletext',
+        'timecreated' => 'timecreated',
+        'timemodified' => 'timemodified');
+        $dataformat = 'csv';
+        $numpages = self::count_pages($multipageid);
+        $sequence = 1;  
+        $iterator = array(); 
+        while ($sequence <= $numpages) {
+            $pageid = self::get_page_id_from_sequence(
+                    $multipageid, $sequence);
+            $iterator[] = self::get_page_record($pageid);
+            $sequence++;
+        }
+        \download_as_dataformat($filename, $dataformat, 
+                $fields, $iterator);
     }
 }

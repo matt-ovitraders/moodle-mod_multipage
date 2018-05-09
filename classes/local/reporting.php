@@ -28,7 +28,7 @@ namespace mod_multipage\local;
 
 defined('MOODLE_INTERNAL') || die;
 
-class reporting  {
+class reporting {
 
     /*
      * Basic Report - get the module records for this course
@@ -45,5 +45,40 @@ class reporting  {
             $record->timecreated = date("Y-m-d H:i:s",$record->timecreated);
         } 
         return $records;
+    }
+    /*
+     * Page report - get the page records for this course
+     *
+     * @param $multipageid - instance to get records for
+     * @return array of objects sorted by sequence number
+     */
+    public static function fetch_page_data($multipageid){
+        global $DB;
+        $records = $DB->get_records('multipage_pages', 
+                array('multipageid'=>$multipageid), 'sequence', '*');
+        
+        foreach ($records as $record) {
+            $record->timecreated = date("Y-m-d H:i:s",$record->timecreated);
+            $record->timemodified = date("Y-m-d H:i:s",$record->timemodified);
+        } 
+        return $records;
+    }
+
+    public static function fetch_headers() {
+        $fields = array('id' => 'id',
+        'multipageid' => 'multipageid',
+        'sequence' => 'sequence',
+        'prevpageid' => 'prevpageid',
+        'nextpageid' => 'nextpageid',
+        'pagetitle' => 'pagetitle',
+        'pagecontents' => 'pagecontents',
+        'pagecontentsformat' => 'pagecontentsformat',
+        'show_toggle' => 'show_toggle',
+        'togglename' => 'togglename',
+        'toggletext' => 'toggletext',
+        'timecreated' => 'timecreated',
+        'timemodified' => 'timemodified');
+
+        return $fields;
     }
 }

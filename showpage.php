@@ -73,7 +73,7 @@ echo $renderer->show_page($data);
 if ($data->show_toggle) {
     echo $renderer->show_panel($data);
 }
-/* Show comments, if required - to implement as an exercise */
+/* Show comments, if required - to implement as an exercise 
 require_once($CFG->dirroot . '/comment/lib.php');
 comment::init();
 $options = new stdClass();
@@ -84,7 +84,7 @@ $options->component = 'mod_multipage';
 $options->showcount = true;
 $comment = new comment($options);
 $comment->output(false);
-
+*/
 echo $renderer->show_page_nav_links($courseid, $data);
 
 if(has_capability('mod/multipage:manage', $modulecontext)) {

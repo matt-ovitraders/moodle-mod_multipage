@@ -24,6 +24,8 @@
  */
 
 require_once('../../config.php');
+use \mod_multipage\local;
+
 global $DB;
 //fetch URL parameters.
 $courseid = required_param('courseid', PARAM_INT);
@@ -49,6 +51,7 @@ $PAGE->set_context($modulecontext);
 $PAGE->set_pagelayout('course');
 
 $renderer = $PAGE->get_renderer('mod_multipage');
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('multipage_editing', 'mod_multipage'), 2);
 
@@ -67,10 +70,21 @@ if ( ($sequence != 0) && ($action != 'none') ) {
 echo $renderer->page_management($course->id, 
         $moduleinstance, $modulecontext);
 
-// Home link
+// Home & export links.
+$links = array();
 $return_view = new moodle_url('/mod/multipage/view.php', 
         array('n' => $multipageid));
-echo html_writer::link($return_view, 
+$links[] = html_writer::link($return_view, 
         get_string('homelink',  'mod_multipage'));
+
+if(has_capability('mod/multipage:exportpages', $modulecontext)) {
+    $return_export = new moodle_url('/mod/multipage/export.php',
+            array('courseid' => $courseid,
+            'multipageid' => $multipageid));
+    $links[] = html_writer::link($return_export, 
+            get_string('exportlink',  'mod_multipage'));
+}
+
+echo $renderer->page_management_links($links);
 
 echo $OUTPUT->footer();
