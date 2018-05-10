@@ -35,13 +35,12 @@ $multipageid = required_param('multipageid', PARAM_INT);
 $moduleinstance  = $DB->get_record('multipage', 
        array('id' => $multipageid), '*', MUST_EXIST);
 $modulecontext = context_module::instance($moduleinstance->id);
-
-require_capability('mod/multipage:exportpages', $modulecontext);
 require_login();
+require_capability('mod/multipage:exportpages', $modulecontext);
 $fields = \mod_multipage\local\reporting::fetch_headers();
 $records = \mod_multipage\local\reporting::fetch_page_data($multipageid);
 $filename = clean_filename($moduleinstance->name);
-$dataformat = 'csv';
+$dataformat = 'json';
 
 download_as_dataformat($filename, $dataformat, $fields, $records);
 exit;

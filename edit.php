@@ -84,6 +84,13 @@ if(has_capability('mod/multipage:exportpages', $modulecontext)) {
     $links[] = html_writer::link($return_export, 
             get_string('exportlink',  'mod_multipage'));
 }
+if(has_capability('mod/multipage:importpages', $modulecontext)) {
+    $return_export = new moodle_url('/mod/multipage/import.php',
+            array('courseid' => $courseid,
+            'multipageid' => $multipageid));
+    $links[] = html_writer::link($return_export, 
+            get_string('importlink',  'mod_multipage'));
+}
 
 echo $renderer->page_management_links($links);
 

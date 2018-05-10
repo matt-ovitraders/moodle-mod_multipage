@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines report classes
+ * Defines report and export/import classes
  *
  * @package    mod_multipage
  * @copyright  2018 Richard Jones <richardnz@outlook.com>
@@ -47,23 +47,22 @@ class reporting {
         return $records;
     }
     /*
-     * Page report - get the page records for this course
+     * Page export - get the page records for this multipage
      *
      * @param $multipageid - instance to get records for
-     * @return array of objects sorted by sequence number
+     * @return array of objects ordered by sequence number
      */
     public static function fetch_page_data($multipageid){
         global $DB;
-        $records = $DB->get_records('multipage_pages', 
+        return $DB->get_records('multipage_pages', 
                 array('multipageid'=>$multipageid), 'sequence', '*');
-        
-        foreach ($records as $record) {
-            $record->timecreated = date("Y-m-d H:i:s",$record->timecreated);
-            $record->timemodified = date("Y-m-d H:i:s",$record->timemodified);
-        } 
-        return $records;
     }
-
+    /*
+     * Page export - get the columns for multipage_pages
+     *
+     * @param none
+     * @return array of column names
+     */
     public static function fetch_headers() {
         $fields = array('id' => 'id',
         'multipageid' => 'multipageid',
@@ -80,5 +79,40 @@ class reporting {
         'timemodified' => 'timemodified');
 
         return $fields;
+    }
+    /*
+     * Page import - add page records to this multipage
+     *
+     * @param $multipageid - instance to get records for
+     * @param $records - associative array of records in sequence order
+     * @return true if records were inserted
+     */
+    public static function import_pages($multipageid, $records){
+        global $DB;
+
+        foreach ($records as $record) {
+            $data = new \stdClass();
+            foreach ($record as $field) {
+                // Build record array, change the multipage id
+                // Check for duplicate multipageid, don't insert
+                if ($multipageid != $field['multipageid']) {
+                    $data->multipageid = $multipageid;
+                    $data->sequence = $field['sequence'];
+                    $data->prevpageid = $field['prevpageid'];
+                    $data->nextpage = $field['nextpageid'];
+                    $data->pagetitle = $field['pagetitle'];
+                    $data->pagecontents = $field['pagecontents'];
+                    $data->pagecontentsformat = $field['pagecontentsformat'];
+                    $data->show_toggle = $field['show_toggle'];
+                    $data->togglename = $field['togglename'];
+                    $data->toggletext = $field['toggletext'];
+                    $data->timecreated = $field['timecreated'];
+                    $data->timemodified = time();
+                } else { return false; }
+            }
+            $data->id = $DB->insert_record('multipage_pages', $data);
+            if (!$data->id) { return false; }
+        }
+        return true;
     }
 }

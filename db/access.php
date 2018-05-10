@@ -70,6 +70,7 @@ $capabilities = array(
         ),
     ),
     'mod/multipage:addcomment' => array(
+        'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -89,7 +90,7 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:manageactivities'   
     ),
     'mod/multipage:viewreportstab' => array (
-        'riskbitmask' => RISK_XSS,
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array (
@@ -99,7 +100,17 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:manageactivities'  
     ),
     'mod/multipage:exportpages' => array (
-        'riskbitmask' => RISK_XSS,
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array (
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+        'clonepermissionsfrom' => 'moodle/course:manageactivities'    
+    ),
+    'mod/multipage:importpages' => array (
+        'riskbitmask' => RISK_XSS || RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array (

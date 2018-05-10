@@ -38,6 +38,7 @@ $string['multipage:submit'] = 'Submit multipage';
 $string['multipage:view'] = 'View multipage';
 $string['multipage:viewreportstab'] = 'View reports';
 $string['multipage:exportpages'] = 'Export pages';
+$string['multipage:importpages'] = 'Import pages';
 
 // Instance settings
 $string['multipagefieldset'] = 'Custom example fieldset';
@@ -50,8 +51,10 @@ $string['pluginname'] = 'multipage';
 $string['multipage_settings'] = 'Multi-page settings';
 $string['multipage_title'] = 'Title of this resource';
 
-// Capabilities
-$string['multipage:manage'] = 'Manage multipage';
+// Import form settings
+$string['filetoimport'] = 'File to import';
+$string['filetoimport_help'] = 'Select a csv file with page details.
+          Should have been exported via page management page.';
 
 // Page management
 $string['multipage_editing'] = 'Editing multipage';
@@ -79,13 +82,15 @@ $string['nolink'] = 'none';
 $string['no_pages'] = 'There are no pages yet, add a page';
 $string['numpages'] = 'Number of pages: {$a}';
 
-// Page navigation
+// Page navigation & management
 $string['firstpagelink'] = 'First page';
 $string['homelink'] = 'Home';
-$string['exportlink'] = 'Export pages (csv)';
-$string['downloadpages'] = 'Download multipage pages';
+$string['exportlink'] = 'Export pages';
+$string['importlink'] = 'Import pages';
 $string['gotonextpage'] = 'Next';
 $string['gotoprevpage'] = 'Previous';
+$string['pages_imported'] = 'Imported pages from file';
+$string['pages_not_imported'] = 'Could not import pages from file';
 
 // Page editing
 $string['gotoaddpage'] = 'Add page';
