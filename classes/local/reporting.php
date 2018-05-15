@@ -90,8 +90,8 @@ class reporting {
     public static function import_pages($multipageid, $records){
         global $DB;
 
-        foreach ($records as $record) {
             $data = new \stdClass();
+            $record = $records[0];
             foreach ($record as $field) {
                 // Build record array, change the multipage id
                 // Check for duplicate multipageid, don't insert
@@ -109,7 +109,6 @@ class reporting {
                     $data->timecreated = $field['timecreated'];
                     $data->timemodified = time();
                 } else { return false; }
-            }
             $data->id = $DB->insert_record('multipage_pages', $data);
             if (!$data->id) { return false; }
         }
