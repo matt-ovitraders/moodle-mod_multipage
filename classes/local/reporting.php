@@ -99,7 +99,7 @@ class reporting {
                     $data->multipageid = $multipageid;
                     $data->sequence = $field['sequence'];
                     $data->prevpageid = $field['prevpageid'];
-                    $data->nextpage = $field['nextpageid'];
+                    $data->nextpageid = $field['nextpageid'];
                     $data->pagetitle = $field['pagetitle'];
                     $data->pagecontents = $field['pagecontents'];
                     $data->pagecontentsformat = $field['pagecontentsformat'];

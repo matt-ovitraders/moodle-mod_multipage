@@ -28,11 +28,11 @@ require_once('../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->libdir.'/dataformatlib.php');
 
-//$courseid = required_param('courseid', PARAM_INT);
-$multipageid = required_param('multipageid', PARAM_INT); 
+$courseid = required_param('courseid', PARAM_INT);
+$multipageid = required_param('multipageid', PARAM_INT);
 
 // Need instance and context
-$moduleinstance  = $DB->get_record('multipage', 
+$moduleinstance  = $DB->get_record('multipage',
        array('id' => $multipageid), '*', MUST_EXIST);
 $modulecontext = context_module::instance($moduleinstance->id);
 require_login();

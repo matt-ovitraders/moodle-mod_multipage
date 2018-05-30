@@ -29,8 +29,8 @@ use \mod_multipage\local;
 global $DB;
 //fetch URL parameters.
 $courseid = required_param('courseid', PARAM_INT);
-$multipageid = required_param('multipageid', PARAM_INT); 
-$sequence = optional_param('sequence', 0, PARAM_INT); 
+$multipageid = required_param('multipageid', PARAM_INT);
+$sequence = optional_param('sequence', 0, PARAM_INT);
 $action = optional_param('action', 'none', PARAM_TEXT);
 
 // Set course related variables.
@@ -39,8 +39,8 @@ $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $cm = get_coursemodule_from_instance('multipage', $multipageid, $courseid, false, MUST_EXIST);
 
 //set up the page
-$PAGE->set_url('/mod/multipage/edit.php', 
-        array('courseid' => $courseid, 
+$PAGE->set_url('/mod/multipage/edit.php',
+        array('courseid' => $courseid,
               'multipageid' => $multipageid,));
 
 require_login($course, true, $cm);
@@ -61,36 +61,42 @@ echo $OUTPUT->heading(get_string('multipage_editing', 'mod_multipage'), 2);
 if ( ($sequence != 0) && ($action != 'none') ) {
     if($action == 'move_up') {
     \mod_multipage\local\pages::move_page_up(
-            $multipageid, $sequence);                            
-    } else if ($action == 'move_down') { 
+            $multipageid, $sequence);
+    } else if ($action == 'move_down') {
     \mod_multipage\local\pages::move_page_down(
-            $multipageid, $sequence);                        
+            $multipageid, $sequence);
     }
 }
-echo $renderer->page_management($course->id, 
+echo $renderer->page_management($course->id,
         $moduleinstance, $modulecontext);
 
 // Home & export links.
 $links = array();
-$return_view = new moodle_url('/mod/multipage/view.php', 
+$return_view = new moodle_url('/mod/multipage/view.php',
         array('n' => $multipageid));
-$links[] = html_writer::link($return_view, 
+$links[] = html_writer::link($return_view,
         get_string('homelink',  'mod_multipage'));
 
 if(has_capability('mod/multipage:exportpages', $modulecontext)) {
     $return_export = new moodle_url('/mod/multipage/export.php',
             array('courseid' => $courseid,
             'multipageid' => $multipageid));
-    $links[] = html_writer::link($return_export, 
+    $links[] = html_writer::link($return_export,
             get_string('exportlink',  'mod_multipage'));
 }
 if(has_capability('mod/multipage:importpages', $modulecontext)) {
     $return_export = new moodle_url('/mod/multipage/import.php',
             array('courseid' => $courseid,
             'multipageid' => $multipageid));
-    $links[] = html_writer::link($return_export, 
+    $links[] = html_writer::link($return_export,
             get_string('importlink',  'mod_multipage'));
 }
+// Link to auto-sequencing page.
+        $url = new moodle_url('/mod/multipage/autosequence.php',
+                array('courseid' => $courseid,
+                'multipageid' => $multipageid));
+        $links[] =  html_writer::link($url,
+                get_string('autosequencelink', 'mod_multipage'));
 
 echo $renderer->page_management_links($links);
 

@@ -160,12 +160,24 @@ function multipage_refresh_events($courseid = 0) {
 function multipage_delete_instance($id) {
     global $DB;
 
+    // Get the course module id
+
     if (!$multipage = $DB->get_record('multipage', array('id' => $id))) {
         return false;
+    }
+    if (!$cm = get_coursemodule_from_instance('multipage', $multipage->id)) {
+     return false;
     }
     // Delete any dependent records here.
     $DB->delete_records('multipage_pages', array('multipageid' => $multipage->id));
     $DB->delete_records('multipage', array('id' => $multipage->id));
+
+    // Delete files
+    $context = context_module::instance($cm->id);
+    $fs = get_file_storage();
+    $fs->delete_area_files($context->id, 'pagecontents');
+    $fs->delete_area_files($context->id, 'pagecomments');
+
     return true;
 }
 
@@ -403,24 +415,24 @@ function mod_multipage_comment_validate($comment_param) {
         throw new comment_exception('invalidcommentarea');
     }
     // get page record to validate itemid (pageid record)
-    if (!$record = $DB->get_record('multipage_pages', 
+    if (!$record = $DB->get_record('multipage_pages',
             array('id'=>$comment_param->itemid))) {
         throw new comment_exception('invalidcommentitemid');
     }
     // Get the multipage data record
-    if (!$data = $DB->get_record('multipage', 
+    if (!$data = $DB->get_record('multipage',
             array('id'=>$record->multipageid))) {
         throw new comment_exception('invalidid', 'multipage');
     }
     // get the course record
-    if (!$course = $DB->get_record('course', 
+    if (!$course = $DB->get_record('course',
             array('id'=>$data->course))) {
         throw new comment_exception('coursemisconf');
     }
     return true;
 }
 // Who can post comments
-function mod_multipage_comment_permissions($comment_param) {   
+function mod_multipage_comment_permissions($comment_param) {
    $canpost = has_capability('mod/multipage:addcomment', $comment_param->context);
     return array('post' => $canpost, 'view' => true);
 }
@@ -430,7 +442,7 @@ function mod_multipage_comment_permissions($comment_param) {
 // in access.php as well as the showpage visibility of the area.
 function mod_multipage_comment_add($comment_param) {
     return true;
-}   
+}
 
 
 /* File API */
@@ -439,7 +451,7 @@ function mod_multipage_comment_add($comment_param) {
 function multipage_get_editor_options($context) {
     global $CFG;
     return array('subdirs'=>true, 'maxbytes'=>$CFG->maxbytes, 'maxfiles'=>-1,
-            'changeformat'=>1, 'context'=>$context, 
+            'changeformat'=>1, 'context'=>$context,
             'noclean'=>true, 'trusttext'=>false);
 }
 
@@ -494,7 +506,7 @@ function multipage_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
  */
-function multipage_pluginfile($course, $cm, $context, $filearea, array $args, 
+function multipage_pluginfile($course, $cm, $context, $filearea, array $args,
         $forcedownload, array $options=array()) {
     global $DB, $CFG;
 
@@ -544,6 +556,6 @@ function multipage_extend_settings_navigation(settings_navigation $settingsnav, 
     global $PAGE;
     $namechange_url = new moodle_url('/mod/multipage/namechanger.php',
             array('courseid'=>$PAGE->course->id));
-    $multipagenode->add(get_string('namechange', 'mod_multipage'), 
+    $multipagenode->add(get_string('namechange', 'mod_multipage'),
             $namechange_url);
 }

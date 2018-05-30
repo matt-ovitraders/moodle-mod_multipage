@@ -67,7 +67,8 @@ $string['actions'] = 'Actions';
 $string['move_up'] = 'Move up';
 $string['move_down'] = 'Move down';
 $string['showpage'] = 'Preview page';
-
+$string['autosequencelink'] = 'Auto-sequence pages';
+$string['sequence_updated'] = 'page links updated';
 // Page editing
 $string['edit_page'] = 'Edit page';
 $string['add_page'] = 'Add page';
