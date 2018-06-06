@@ -56,7 +56,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="multipageid" TYPE="foreign" FIELDS="multipageid" REFTABLE="multipages" REFFIELDS="id"/>
+        <KEY NAME="multipageid" TYPE="foreign" FIELDS="multipageid" REFTABLE="multipage" REFFIELDS="id"/>
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
