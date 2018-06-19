@@ -77,8 +77,7 @@ class restore_multipage_activity_task extends restore_activity_task {
         $rules[] = new restore_decode_rule('MULTIPAGEVIEWBYID', '/mod/multipage/view.php?id=$1', 'course_module');
 
         $rules[] = new restore_decode_rule('MULTIPAGEINDEX', '/mod/multipage/index.php?id=$1', 'course');
-        
-        $rules[] = new restore_decode_rule('MULTIPAGESHOWPAGE', '/mod/multipage/showpage.php?id=$1&pageid=$2', array('course', 'multipage_pages'));
+
         return $rules;
     }
 
@@ -95,7 +94,7 @@ class restore_multipage_activity_task extends restore_activity_task {
         $rules[] = new restore_log_rule('multipage', 'edit', 'view.php?id={course_module}', '{multipage}');
         $rules[] = new restore_log_rule('multipage', 'view', 'view.php?id={course_module}', '{multipage}');
         $rules[] = new restore_log_rule('multipage', 'update', 'view.php?id={course_module}', '{multipage}');
-        
+
         return $rules;
     }
 

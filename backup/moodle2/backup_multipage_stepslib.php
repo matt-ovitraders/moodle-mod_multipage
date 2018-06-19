@@ -47,15 +47,18 @@ class backup_multipage_activity_structure_step extends backup_activity_structure
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define the root element describing the multipage instance.
-        $multipage = new backup_nested_element('multipage', array('id'), array(
-            'name', 'intro', 'introformat', 'title', 'timecreated','timemodified', 'grade'));
+        $multipage = new backup_nested_element('multipage',
+                array('id'), array('course', 'name', 'intro',
+                'introformat', 'title', 'timecreated','timemodified',
+                'grade', 'max_attempts'));
 
         // Build the tree here.
         $pages = new backup_nested_element('pages');
-        $page = new backup_nested_element('page', array('id'), 
-                array('multipageid', 'sequence', 'prevpageid','nextpageid',
-                'pagetitle','pagecontents','pagecontentsformat','timecreated',
-                'timemodified','title'));
+        $page = new backup_nested_element('page', array('id'),
+                array('multipageid', 'sequence', 'prevpageid',
+                'nextpageid', 'pagetitle','pagecontents',
+                'pagecontentsformat', 'show_toggle', 'togglename',
+                'toggletext','timecreated', 'timemodified'));
 
         $multipage->add_child($pages);
         $pages->add_child($page);
@@ -64,8 +67,8 @@ class backup_multipage_activity_structure_step extends backup_activity_structure
         $multipage->set_source_table('multipage', array('id' => backup::VAR_ACTIVITYID));
 
         // Pages are ordered by sequence number
-        $page->set_source_table('multipage_pages', 
-                array('multipageid' => backup::VAR_PARENTID), 
+        $page->set_source_table('multipage_pages',
+                array('multipageid' => backup::VAR_PARENTID),
                 'sequence ASC');
 
         // Define file annotations

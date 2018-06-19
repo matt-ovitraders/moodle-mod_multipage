@@ -23,7 +23,8 @@
  * @see https://github.com/moodlehq/moodle-mod_newmodule
  *
  */
-
+use \mod_simplelesson\local\pages;
+defined('MOODLE_INTERNAL') || die();
 /**
  * Structure step to restore one multipage activity
  *
@@ -42,7 +43,10 @@ class restore_multipage_activity_structure_step extends restore_activity_structu
     protected function define_structure() {
 
         $paths = array();
-        $paths[] = new restore_path_element('multipage', '/activity/multipage');
+        $paths[] = new restore_path_element('multipage',
+                '/activity/multipage');
+        $paths[] = new restore_path_element('multipage_page',
+                '/activity/multipage/pages/page');
 
         // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
@@ -68,11 +72,6 @@ class restore_multipage_activity_structure_step extends restore_activity_structu
             $data->timemodified = time();
         }
 
-        if ($data->grade < 0) {
-            // Scale found, get mapping.
-            $data->grade = -($this->get_mappingid('scale', abs($data->grade)));
-        }
-
         // Create the multipage instance.
         $newitemid = $DB->insert_record('multipage', $data);
         $this->apply_activity_instance($newitemid);
@@ -89,18 +88,43 @@ class restore_multipage_activity_structure_step extends restore_activity_structu
         // when we know how :)
 
         $newitemid = $DB->insert_record('multipage_pages', $data);
-        $this->set_mapping('multipage_page', $oldid, $newitemid, true); 
+        $this->set_mapping('multipage_page', $oldid, $newitemid, true);
 
     }
     /**
      * Post-execution actions
      */
     protected function after_execute() {
-        // Add multipage related files, no need to match by itemname (just internally handled context).
+        // Add multipage related files to file areas
         $this->add_related_files('mod_multipage', 'intro', null);
         $this->add_related_files('mod_multipage', 'pagecontents', 'multipage_pages');
 
-        // Check here, may have to remap the page links (prev, next)
-        // At the moment, user would have to go to manage pages to fix that up.
+        // Remap the page links (prev, next).
+        // Fix up page id's using the sequence number.
+
+        $multipageid = $this->get_new_parentid('simplelesson');
+
+        // How many pages to fix?
+        $pagecount = pages::count_pages($multipageid);
+
+        for ($p = 1; $p <= $pagecount; $p++) {
+            $newpageid = pages::get_page_id_from_sequence($multipageid,
+            $p);
+            $nextpageid = ($p == $pagecount) ? 0 :
+                    pages::get_page_id_from_sequence($multipageid,
+                            $p + 1);
+            $prevpageid = ($p == 1) ? 0 :
+                    pages::get_page_id_from_sequence($multipageid,
+                            $p - 1);
+
+            $DB->set_field('multipage_pages', 'nextpageid',
+                    $nextpageid,
+                    array('id' => $newpageid,
+                    'multipageid' => $multipageid));
+            $DB->set_field('multipage_pages', 'prevpageid',
+                    $prevpageid,
+                    array('id' => $newpageid,
+                    'multipageid' => $multipageid));
+        }
     }
 }
